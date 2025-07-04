@@ -17,7 +17,7 @@ Widget buildCancelarButton({required BuildContext context, required VoidCallback
         foregroundColor: Colors.black,
       ),
       child: Text(
-        'CANCELAR',
+        'CANCELAR ',
         style: TextStyle(
           fontSize: 18.0,
           fontWeight: FontWeight.bold,

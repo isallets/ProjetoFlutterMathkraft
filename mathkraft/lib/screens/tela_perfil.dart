@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mathkraft/screens/tela_boas_vindas.dart';
 import 'package:mathkraft/widgets/menu_navigation_bar_widget.dart';
 import 'package:mathkraft/widgets/button_cancelar_confimar.dart';
 
@@ -37,7 +38,6 @@ class _TelaPerfilState extends State<TelaPerfil> {
                       context: context,
                       onPressed: () {
                         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TelaPerfil()));
-
                       },
                     ),
 
@@ -46,7 +46,7 @@ class _TelaPerfilState extends State<TelaPerfil> {
                     buildConfirmarButton(
                       context: context,
                       onPressed: () {
-                        //
+                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TelaBoasVindas()));
                       },
                     ),
                   ],
@@ -125,7 +125,7 @@ class _TelaPerfilState extends State<TelaPerfil> {
       backgroundColor: Colors.white,
       appBar: AppBar(
         toolbarHeight: -51.8,
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
         elevation: 0,
       ),
       body: Column(

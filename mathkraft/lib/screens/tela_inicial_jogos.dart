@@ -5,10 +5,12 @@ class TelaInicialJogos extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: AppBar(
         toolbarHeight: 30,
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
         elevation: 0,
+          automaticallyImplyLeading: false
       ),
       //cabeçalho
       body: Padding(
@@ -16,7 +18,7 @@ class TelaInicialJogos extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
+          children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -36,7 +38,7 @@ class TelaInicialJogos extends StatelessWidget {
             ),
 
             SizedBox(height: 40.0),
-            //texto da pergunta aleatória
+            //pergunta aleatória
             Text(
               'Pergunta Aleatória',
               style: TextStyle(
