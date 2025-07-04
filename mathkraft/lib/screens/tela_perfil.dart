@@ -96,7 +96,7 @@ class _TelaPerfilState extends State<TelaPerfil> {
                       },
                     ),
 
-                    SizedBox(height: 15.0), // Espaçamento entre os botões
+                    SizedBox(height: 15.0),
                     
                     buildConfirmarButton(
                       context: context,

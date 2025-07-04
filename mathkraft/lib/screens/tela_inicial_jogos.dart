@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mathkraft/screens/tela_jogo.dart';
 import 'package:mathkraft/widgets/menu_navigation_bar_widget.dart';
 
 class TelaInicialJogos extends StatelessWidget {
@@ -132,7 +133,7 @@ class TelaInicialJogos extends StatelessWidget {
                           //botão jogar dentro do quadrado amarelo
                           ElevatedButton(
                             onPressed: () {
-                              //
+                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TelaJogo()));
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.black,
