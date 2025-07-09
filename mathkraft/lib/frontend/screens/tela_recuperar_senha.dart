@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mathkraft/frontend/widgets/app_bar_voltar_button.dart';
 
 class TelaRecuperarSenha extends StatefulWidget {
   const TelaRecuperarSenha({super.key});
@@ -23,27 +24,11 @@ class _TelaRecuperarSenhaState extends State<TelaRecuperarSenha> {
     const Color laranja = Color.fromRGBO(249, 206, 79, 1);
     const Color preto = Colors.black;
     const Color cinza = Color(0xFF424242);
+    final AppBarVoltarButton voltarButton = AppBarVoltarButton();
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.circle,
-              border: Border.all(color: Colors.grey.shade300, width: 1),
-            ),
-            child: IconButton(
-              icon: const Icon(Icons.arrow_back, color: preto),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-          ),
-        ),
-      ),
+      appBar: voltarButton.criar(context, Colors.white),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 32.0),
         child: Center(

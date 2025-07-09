@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mathkraft/widgets/menu_navigation_bar_widget.dart';
-import 'package:mathkraft/screens/tela_criar_pergunta.dart';
+import 'package:mathkraft/frontend/widgets/menu_navigation_bar_widget.dart';
+import 'package:mathkraft/frontend/screens/tela_criar_pergunta.dart';
 
 class TelaAdmin extends StatefulWidget {
   const TelaAdmin({super.key});

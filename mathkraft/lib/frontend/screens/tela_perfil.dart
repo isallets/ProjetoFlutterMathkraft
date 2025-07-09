@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:mathkraft/screens/tela_boas_vindas.dart';
-import 'package:mathkraft/widgets/menu_navigation_bar_widget.dart';
-import 'package:mathkraft/widgets/button_cancelar_confimar.dart';
+import 'package:mathkraft/frontend/screens/tela_boas_vindas.dart';
+import 'package:mathkraft/frontend/widgets/menu_navigation_bar_widget.dart';
+import 'package:mathkraft/frontend/widgets/button_cancelar_confimar.dart';
 
 class TelaPerfil extends StatefulWidget {
+  const TelaPerfil({super.key});
+
   @override
   _TelaPerfilState createState() => _TelaPerfilState();
 }
 
-class _TelaPerfilState extends State<TelaPerfil> {
+class _TelaPerfilState extends State<TelaPerfil>{
+
   //botão sair da conta
   void _buttonSairContaDialog() {
     showDialog(

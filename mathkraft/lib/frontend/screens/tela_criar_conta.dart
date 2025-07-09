@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:mathkraft/backend/service.dart/user_service.dart';
 import 'dart:async';
+
+import 'package:mathkraft/frontend/widgets/app_bar_voltar_button.dart';
 
 class TelaCriarConta extends StatelessWidget {
   const TelaCriarConta({super.key});
@@ -8,6 +11,17 @@ class TelaCriarConta extends StatelessWidget {
   Widget build(BuildContext context) {
     const Color laranja = Color.fromRGBO(249, 206, 79, 1);
     const Color cinza = Color(0xFF424242);
+    final AppBarVoltarButton voltarButton = AppBarVoltarButton();
+    late TextEditingController _nome = TextEditingController();
+    late TextEditingController _senha1 = TextEditingController();
+    late TextEditingController _senha2 = TextEditingController();
+    late TextEditingController _telefone = TextEditingController();
+
+    void _criarConta(String nome, String senha, String telefone){
+      UserService.instancia.addUser(nome, senha, telefone);
+    }
+    
+    
 
     void _showSuccessDialog() {
       showDialog(
@@ -31,24 +45,8 @@ class TelaCriarConta extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.white,
       // Barra superior com botão de voltar
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              shape: BoxShape.circle,
-              border: Border.all(color: Colors.grey.shade300, width: 1),
-            ),
-            child: IconButton(
-              icon: const Icon(Icons.arrow_back, color: cinza),
-              onPressed: () => Navigator.of(context).pop(),
-            ),
-          ),
-        ),
-      ),
+      appBar: voltarButton.criar(context, Colors.white),
+
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 32.0),
         child: Center(
@@ -77,12 +75,14 @@ class TelaCriarConta extends StatelessWidget {
 
               // Campos de Texto
               _buildTextField(
+                controller: _nome,
                 labelText: 'Nome de usuário',
                 icon: Icons.person_outline,
                 borderColor: cinza,
               ),
               const SizedBox(height: 20),
               _buildTextField(
+                controller: _senha1,
                 labelText: 'Senha',
                 icon: Icons.lock_outline,
                 obscureText: true,
@@ -90,6 +90,7 @@ class TelaCriarConta extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               _buildTextField(
+                controller: _senha2,
                 labelText: 'Repita a senha',
                 icon: Icons.lock_outline,
                 obscureText: true,
@@ -97,6 +98,7 @@ class TelaCriarConta extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               _buildTextField(
+                controller: _telefone,
                 labelText: 'Telefone',
                 icon: Icons.phone_iphone_outlined,
                 keyboardType: TextInputType.phone,
@@ -115,7 +117,10 @@ class TelaCriarConta extends StatelessWidget {
                   ),
                   elevation: 0,
                 ),
-                onPressed: _showSuccessDialog,
+                onPressed: () {
+                  _criarConta(_nome.text, _senha1.text, _telefone.text);
+                  _showSuccessDialog;
+                },
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -157,6 +162,7 @@ class TelaCriarConta extends StatelessWidget {
 
   // Widget auxiliar para criar os campos de texto padronizados
   Widget _buildTextField({
+    required TextEditingController controller,
     required String labelText,
     required IconData icon,
     bool obscureText = false,
@@ -164,6 +170,7 @@ class TelaCriarConta extends StatelessWidget {
     required Color borderColor,
   }) {
     return TextField(
+      controller: controller,
       obscureText: obscureText,
       keyboardType: keyboardType,
       decoration: InputDecoration(

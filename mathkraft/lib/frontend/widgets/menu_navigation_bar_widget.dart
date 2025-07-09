@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mathkraft/screens/tela_perfil.dart';
-import 'package:mathkraft/screens/tela_inicial_jogos.dart';
+import 'package:mathkraft/frontend/screens/tela_perfil.dart';
+import 'package:mathkraft/frontend/screens/tela_inicial_jogos.dart';
 
 Widget menuBottomNavigationBar(BuildContext context, int selectedIndex) {
   return BottomNavigationBar(
@@ -22,10 +22,10 @@ Widget menuBottomNavigationBar(BuildContext context, int selectedIndex) {
       ),
     ],
     onTap: (index) {
-      if (index == 0 && selectedIndex != 0) {
+      if (index == 0) {
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TelaInicialJogos()));
       }
-      else if (index == 1 && selectedIndex != 1) {
+      else if (index == 1){
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TelaPerfil()));
       }
     },

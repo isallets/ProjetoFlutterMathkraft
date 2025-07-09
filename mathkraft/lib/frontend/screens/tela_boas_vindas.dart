@@ -1,8 +1,14 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
-import 'package:mathkraft/screens/tela_criar_conta.dart';
-import 'package:mathkraft/screens/tela_recuperar_senha.dart';
-import 'package:mathkraft/screens/tela_admin.dart';
-import 'package:mathkraft/screens/tela_inicial_jogos.dart';
+import 'package:mathkraft/backend/classes/user_admin.dart';
+import 'package:mathkraft/backend/controller/user_controller.dart';
+import 'package:mathkraft/backend/repository/user_repository.dart';
+import 'package:mathkraft/backend/service.dart/user_service.dart';
+import 'package:mathkraft/frontend/screens/tela_criar_conta.dart';
+import 'package:mathkraft/frontend/screens/tela_recuperar_senha.dart';
+import 'package:mathkraft/frontend/screens/tela_admin.dart';
+import 'package:mathkraft/frontend/screens/tela_inicial_jogos.dart';
 
   class TelaBoasVindas extends StatelessWidget {
   const TelaBoasVindas({super.key});
@@ -12,6 +18,11 @@ import 'package:mathkraft/screens/tela_inicial_jogos.dart';
     const Color laranja = Colors.orange;
     const Color preto = Colors.black;
     const Color cinza = Color(0xFF424242);
+    late TextEditingController _nome = TextEditingController();
+    late TextEditingController _senha = TextEditingController();
+    late var login;
+    late String tipoConta;
+    final UserService userService = UserService.instancia;
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -40,6 +51,7 @@ import 'package:mathkraft/screens/tela_inicial_jogos.dart';
 
                 //Campo "Nome de usuário"
                 TextField(
+                  controller: _nome,
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(
                     labelText: 'Nome de usuário',
@@ -57,6 +69,7 @@ import 'package:mathkraft/screens/tela_inicial_jogos.dart';
 
                 //Campo "Senha"
                 TextField(
+                  controller: _senha,
                   obscureText: true,
                   decoration: InputDecoration(
                     labelText: 'Senha',
@@ -84,7 +97,24 @@ import 'package:mathkraft/screens/tela_inicial_jogos.dart';
                     elevation: 0,
                   ),
                   onPressed: () {
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TelaInicialJogos()));
+                    login = UserController.instance.logar(_nome.text, _senha.text);
+                    if(login.runtimeType == String){
+                      showDialog(
+                        context: context, 
+                        builder: (BuildContext dialogContext){
+                          return AlertDialog(
+                            backgroundColor: const Color.fromARGB(255, 255, 179, 149),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0)),
+                            content: SizedBox(width: 300, height: 300, child: Text(login, textAlign: TextAlign.center,)));
+                        });
+                    }
+                    else if(login.runtimeType == UserAdmin){
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const TelaAdmin()));
+                    }
+                    else{
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TelaInicialJogos()));
+                    }
                   },
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,

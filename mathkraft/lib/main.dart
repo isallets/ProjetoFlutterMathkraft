@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:mathkraft/screens/tela_boas_vindas.dart'; // Importe a tela_boas_vindas
+import 'package:mathkraft/frontend/screens/tela_boas_vindas.dart'; // Importe a tela_boas_vindas
 
 void main() {
+
   runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
