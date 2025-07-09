@@ -1,4 +1,4 @@
-import 'package:mathkraft/backend/classes/user_model.dart';
+import 'package:mathkraft/backend/model/user_model.dart';
 import 'package:mathkraft/backend/repository/user_repository.dart';
 import 'package:mathkraft/backend/validators/validators.dart';
 
@@ -6,6 +6,7 @@ class UserService {
   late UserRepository userRepository;
   static final UserService _instancia = UserService._();
   Validators v = Validators();
+  
 
 //construtor anonimo para impedir instâncias em outras classes
   UserService._(){
@@ -18,8 +19,12 @@ class UserService {
   }
 
 //função para criar usuário
-  void addUser (String nome, String senha, String telefone){
+  void criarUser (String nome, String senha, String telefone){
+
+
     userRepository.addUser(nome, senha, telefone);
+
+
   }
 
 //função validar login

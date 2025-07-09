@@ -1,4 +1,4 @@
-import 'package:mathkraft/backend/classes/user_model.dart';
+import 'package:mathkraft/backend/model/user_model.dart';
 import 'package:mathkraft/backend/service.dart/user_service.dart';
 
 class UserController {
@@ -9,6 +9,10 @@ class UserController {
 
   static UserController get instance{
     return _instancia;
+  }
+
+  void criarUser(String nome, String senha, String telefone){
+    UserService.instancia.criarUser(nome, senha, telefone);
   }
 
   

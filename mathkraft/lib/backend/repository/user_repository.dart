@@ -1,8 +1,8 @@
 import 'dart:developer';
 
-import 'package:mathkraft/backend/classes/user_admin.dart';
-import 'package:mathkraft/backend/classes/user_comum.dart';
-import 'package:mathkraft/backend/classes/user_model.dart';
+import 'package:mathkraft/backend/model/user_admin.dart';
+import 'package:mathkraft/backend/model/user_comum.dart';
+import 'package:mathkraft/backend/model/user_model.dart';
 
 class UserRepository {
   static final UserRepository _instancia = UserRepository._();

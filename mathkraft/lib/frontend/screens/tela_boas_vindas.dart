@@ -1,10 +1,6 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:mathkraft/backend/classes/user_admin.dart';
+import 'package:mathkraft/backend/model/user_admin.dart';
 import 'package:mathkraft/backend/controller/user_controller.dart';
-import 'package:mathkraft/backend/repository/user_repository.dart';
-import 'package:mathkraft/backend/service.dart/user_service.dart';
 import 'package:mathkraft/frontend/screens/tela_criar_conta.dart';
 import 'package:mathkraft/frontend/screens/tela_recuperar_senha.dart';
 import 'package:mathkraft/frontend/screens/tela_admin.dart';
@@ -21,8 +17,7 @@ import 'package:mathkraft/frontend/screens/tela_inicial_jogos.dart';
     late TextEditingController _nome = TextEditingController();
     late TextEditingController _senha = TextEditingController();
     late var login;
-    late String tipoConta;
-    final UserService userService = UserService.instancia;
+  
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -106,7 +101,12 @@ import 'package:mathkraft/frontend/screens/tela_inicial_jogos.dart';
                             backgroundColor: const Color.fromARGB(255, 255, 179, 149),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20.0)),
-                            content: SizedBox(width: 300, height: 300, child: Text(login, textAlign: TextAlign.center,)));
+                            content: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(login, textAlign: TextAlign.center,),
+                              ],
+                            ));
                         });
                     }
                     else if(login.runtimeType == UserAdmin){
@@ -154,23 +154,7 @@ import 'package:mathkraft/frontend/screens/tela_inicial_jogos.dart';
                   cinza,
                 ),
                 const SizedBox(height: 12),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => const TelaAdmin()),
-                    );
-                  },
-                  child: const Text(
-                    'Admin',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: laranja,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
-                  ),
-                ),
+                
               ],
             ),
           ),

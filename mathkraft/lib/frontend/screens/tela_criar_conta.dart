@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mathkraft/backend/controller/user_controller.dart';
 import 'package:mathkraft/backend/service.dart/user_service.dart';
 import 'dart:async';
 
@@ -17,11 +18,6 @@ class TelaCriarConta extends StatelessWidget {
     late TextEditingController _senha2 = TextEditingController();
     late TextEditingController _telefone = TextEditingController();
 
-    void _criarConta(String nome, String senha, String telefone){
-      UserService.instancia.addUser(nome, senha, telefone);
-    }
-    
-    
 
     void _showSuccessDialog() {
       showDialog(
@@ -118,7 +114,7 @@ class TelaCriarConta extends StatelessWidget {
                   elevation: 0,
                 ),
                 onPressed: () {
-                  _criarConta(_nome.text, _senha1.text, _telefone.text);
+                  UserController.instance.criarUser(_nome.text, _senha1.text, _telefone.text);
                   _showSuccessDialog;
                 },
                 child: const Row(
