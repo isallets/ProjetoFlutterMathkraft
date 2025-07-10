@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mathkraft/frontend/widgets/menu_navigation_bar_widget.dart';
 import 'package:mathkraft/frontend/screens/tela_criar_pergunta.dart';
+import 'package:mathkraft/frontend/screens/tela_buscar_usuario.dart';
+import 'package:mathkraft/frontend/screens/tela_consultar_perguntas.dart';
+
 
 class TelaAdmin extends StatefulWidget {
   const TelaAdmin({super.key});
@@ -65,7 +68,8 @@ class _TelaAdminState extends State<TelaAdmin> {
                 text: 'CONSULTAR PERGUNTAS',
                 buttonColor: verde,
                 onPressed: () {
-                  //
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const TelaConsultarPerguntas()));
+
                 },
               ),
               const SizedBox(height: 40),
@@ -73,7 +77,7 @@ class _TelaAdminState extends State<TelaAdmin> {
                 text: 'CONSULTAR USUÁRIOS',
                 buttonColor: rosa,
                 onPressed: () {
-                  //
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const TelaBuscarUsuario()));
                 },
               ),
             ],
