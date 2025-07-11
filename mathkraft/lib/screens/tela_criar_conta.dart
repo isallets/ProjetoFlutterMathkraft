@@ -10,12 +10,12 @@ class UserCriarService {
   static final UserCriarService _instancia = UserCriarService._();
   Validators v = Validators();
 
-//construtor anonimo para impedir instâncias em outras classes
+  // Construtor anônimo para impedir instâncias em outras classes
   UserCriarService._(){
     userRepository = UserRepository.instance;
   }
 
-//função para permitir acesso à instância
+  // Função para permitir acesso à instância
   static UserCriarService get instancia {
     return _instancia;
   }
@@ -25,139 +25,60 @@ class UserCriarService {
   }
 }
 
-class TelaCriarConta extends StatelessWidget {
+class TelaCriarConta extends StatefulWidget {
   const TelaCriarConta({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    const Color laranja = Color.fromRGBO(249, 206, 79, 1);
-    const Color cinza = Color(0xFF424242);
-    final AppBarVoltarButton voltarButton = AppBarVoltarButton();
-    late TextEditingController _nome = TextEditingController();
-    late TextEditingController _senha1 = TextEditingController();
-    late TextEditingController _senha2 = TextEditingController();
-    late TextEditingController _telefone = TextEditingController();
+  State<TelaCriarConta> createState() => _TelaCriarContaState();
+}
 
+class _TelaCriarContaState extends State<TelaCriarConta> {
+  late TextEditingController _nomeController;
+  late TextEditingController _senha1Controller;
+  late TextEditingController _senha2Controller;
+  late TextEditingController _telefoneController;
 
-    void _showSuccessDialog() {
-      showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (BuildContext context) {
-          // Após 2 segundos, o dialog e a tela de cadastro são fechados
-          Timer(const Duration(seconds: 2), () {
-            Navigator.of(context).pop();
-            Navigator.of(context).pop();
-          });
+  final Color laranja = const Color.fromRGBO(249, 206, 79, 1);
+  final Color cinza = const Color(0xFF424242);
 
-          return Dialog(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
-            child: _buildSuccessView(),
-          );
-        },
-      );
-    }
+  @override
+  void initState() {
+    super.initState();
+    _nomeController = TextEditingController();
+    _senha1Controller = TextEditingController();
+    _senha2Controller = TextEditingController();
+    _telefoneController = TextEditingController();
+  }
 
-    return Scaffold(
-      backgroundColor: Colors.white,
-      // Barra superior com botão de voltar
-      appBar: voltarButton.criar(context, Colors.white),
+  @override
+  void dispose() {
+    // Descarte os controladores para liberar recursos
+    _nomeController.dispose();
+    _senha1Controller.dispose();
+    _senha2Controller.dispose();
+    _telefoneController.dispose();
+    super.dispose();
+  }
 
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 32.0),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const SizedBox(height: 20),
+  void _showSuccessDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        // Após 2 segundos, o dialog e a tela de cadastro são fechados
+        Timer(const Duration(seconds: 2), () {
+          Navigator.of(context).pop();
+          Navigator.of(context).pop();
+        });
 
-              Image.asset('lib/assets/MathKraft.png',
-                height: 120,
-              ),
-              const SizedBox(height: 30),
-
-              // "Crie uma conta!"
-              const Text(
-                'Crie uma conta!',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                  color: cinza,
-                ),
-              ),
-              const SizedBox(height: 40),
-
-              // Campos de Texto
-              _buildTextField(
-                controller: _nome,
-                labelText: 'Nome de usuário',
-                icon: Icons.person_outline,
-                borderColor: cinza,
-              ),
-              const SizedBox(height: 20),
-              _buildTextField(
-                controller: _senha1,
-                labelText: 'Senha',
-                icon: Icons.lock_outline,
-                obscureText: true,
-                borderColor: cinza,
-              ),
-              const SizedBox(height: 20),
-              _buildTextField(
-                controller: _senha2,
-                labelText: 'Repita a senha',
-                icon: Icons.lock_outline,
-                obscureText: true,
-                borderColor: cinza,
-              ),
-              const SizedBox(height: 20),
-              _buildTextField(
-                controller: _telefone,
-                labelText: 'Telefone',
-                icon: Icons.phone_iphone_outlined,
-                keyboardType: TextInputType.phone,
-                borderColor: cinza,
-              ),
-              const SizedBox(height: 40),
-
-              //Botão de Cadastro
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: laranja,
-                  foregroundColor: cinza,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(22.0),
-                  ),
-                  elevation: 0,
-                ),
-                onPressed: () {
-                  UserController.instance.criarUser(_nome.text, _senha1.text, _telefone.text);
-                  _showSuccessDialog;
-                },
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Criar conta',
-                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                    ),
-                    SizedBox(width: 8),
-                    Icon(Icons.arrow_forward),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 20),
-            ],
-          ),
-        ),
-      ),
+        return Dialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+          child: _buildSuccessView(),
+        );
+      },
     );
   }
 
-  // View de Sucesso
   Widget _buildSuccessView() {
     return const Column(
       key: ValueKey('successView'),
@@ -176,7 +97,6 @@ class TelaCriarConta extends StatelessWidget {
     );
   }
 
-  // Widget auxiliar para criar os campos de texto padronizados
   Widget _buildTextField({
     required TextEditingController controller,
     required String labelText,
@@ -203,6 +123,127 @@ class TelaCriarConta extends StatelessWidget {
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12.0),
           borderSide: BorderSide(color: Colors.grey.shade800, width: 2),
+        ),
+        contentPadding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 10.0),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // Instancie a classe AppBarVoltarButton aqui dentro do build
+    final AppBarVoltarButton voltarButton = AppBarVoltarButton();
+
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: voltarButton.criar(context, Colors.white), // Usa seu AppBarVoltarButton
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 32.0),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              const SizedBox(height: 20),
+              Image.asset('lib/assets/MathKraft.png', height: 120),
+              const SizedBox(height: 30),
+
+              const Text(
+                'Crie uma conta!',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.bold,
+                  color: Color(0xFF424242),
+                ),
+              ),
+              const SizedBox(height: 40),
+
+              // Campos de Texto
+              _buildTextField( // Usando o método auxiliar
+                controller: _nomeController,
+                labelText: 'Nome de usuário',
+                icon: Icons.person_outline,
+                borderColor: cinza,
+              ),
+              const SizedBox(height: 20),
+              _buildTextField( // Usando o método auxiliar
+                controller: _senha1Controller,
+                labelText: 'Senha',
+                icon: Icons.lock_outline,
+                obscureText: true,
+                borderColor: cinza,
+              ),
+              const SizedBox(height: 20),
+              _buildTextField( // Usando o método auxiliar
+                controller: _senha2Controller, // Associado ao controlador
+                labelText: 'Repita a senha',
+                icon: Icons.lock_outline,
+                obscureText: true,
+                borderColor: cinza,
+              ),
+              const SizedBox(height: 20),
+              _buildTextField( // Usando o método auxiliar
+                controller: _telefoneController, // Associado ao controlador
+                labelText: 'Telefone',
+                icon: Icons.phone_iphone_outlined,
+                keyboardType: TextInputType.phone,
+                borderColor: cinza,
+              ),
+              const SizedBox(height: 40),
+
+              //Botão de Cadastro
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: laranja,
+                  foregroundColor: cinza,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(22.0),
+                  ),
+                  elevation: 0,
+                ),
+                onPressed: () {
+                  // --- Lógica de Validação e Criação de Usuário ---
+                  if (_senha1Controller.text != _senha2Controller.text) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('As senhas não coincidem!')),
+                    );
+                    return;
+                  }
+                  if (_nomeController.text.isEmpty ||
+                      _senha1Controller.text.isEmpty ||
+                      _telefoneController.text.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Por favor, preencha todos os campos.')),
+                    );
+                    return;
+                  }
+
+                  // Chamada correta ao UserController para criar o usuário
+                  UserController.instance.criarUser(
+                    _nomeController.text,
+                    _senha1Controller.text,
+                    _telefoneController.text,
+                  );
+                  _showSuccessDialog(); // Chamada CORRETA da função
+                  // --- Fim da Lógica ---
+                },
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'Criar conta',
+                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(width: 8),
+                    Icon(Icons.arrow_forward),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 20),
+            ],
+          ),
         ),
       ),
     );

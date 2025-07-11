@@ -1,10 +1,69 @@
 import 'package:flutter/material.dart';
-import 'package:mathkraft/screens/tela_buscar_todos_usuarios.dart';
-import 'package:mathkraft/widgets/header_mathkraft.dart';
-import 'package:mathkraft/widgets/menu_navigation_bar_widget.dart';
+import 'package:mathkraft/screens/tela_buscar_todos_usuarios.dart'; // Assumindo seu caminho real
+import 'package:mathkraft/widgets/header_mathkraft.dart'; // Assumindo seu caminho real
+import 'package:mathkraft/widgets/menu_navigation_bar_widget.dart'; // Assumindo seu caminho real
 
-class TelaBuscarUsuario extends StatelessWidget {
+// --- TELA BUSCAR USUARIO (AGORA STATEFUL) ---
+class TelaBuscarUsuario extends StatefulWidget {
   const TelaBuscarUsuario({super.key});
+
+  @override
+  State<TelaBuscarUsuario> createState() => _TelaBuscarUsuarioState();
+}
+
+class _TelaBuscarUsuarioState extends State<TelaBuscarUsuario> {
+  late TextEditingController _nomeController;
+  late TextEditingController _idController;
+
+  // Cores (se houver alguma específica que você queira definir aqui)
+  final Color _laranjaClaro = Colors.yellow[100]!;
+
+  @override
+  void initState() {
+    super.initState();
+    // Inicializa os controladores
+    _nomeController = TextEditingController();
+    _idController = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    // Descarte os controladores para liberar recursos
+    _nomeController.dispose();
+    _idController.dispose();
+    super.dispose();
+  }
+
+  Widget _buildTextField({
+    required TextEditingController controller,
+    required String labelText,
+    bool obscureText = false,
+    TextInputType keyboardType = TextInputType.text,
+    Color borderColor = Colors.black,
+    double borderWidth = 2.0,
+    double borderRadius = 16.0,
+  }) {
+    return TextField(
+      controller: controller,
+      obscureText: obscureText,
+      keyboardType: keyboardType,
+      decoration:
+      InputDecoration(
+        labelText: labelText,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
+          borderSide: BorderSide(color: borderColor, width: borderWidth),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.all(Radius.circular(borderRadius)),
+          borderSide: BorderSide(color: Colors.orange, width: borderWidth),
+        ),
+        contentPadding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 10.0),
+      ),
+      cursorColor: Colors.black,
+      style: const TextStyle(color: Colors.black),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,27 +95,16 @@ class TelaBuscarUsuario extends StatelessWidget {
                 color: Colors.black,
               ),
             ),
-            const SizedBox(height: 8), // Espaço entre o label e o TextField
-            const TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder( // Borda do campo de texto
-                  borderSide: BorderSide(color: Colors.black, width: 2.0),
-                  borderRadius: BorderRadius.all(Radius.circular(16.0)),
-                ),
-                enabledBorder: OutlineInputBorder( // Borda quando o campo está habilitado
-                  borderSide: BorderSide(color: Colors.black, width: 2.0),
-                  borderRadius: BorderRadius.all(Radius.circular(16.0)),
-                ),
-                focusedBorder: OutlineInputBorder( // Borda quando o campo está focado
-                  borderSide: BorderSide(color: Colors.black, width: 2.0),
-                  borderRadius: BorderRadius.all(Radius.circular(16.0)),
-                ),
-                contentPadding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 10.0),
-              ),
-              cursorColor: Colors.black, // Cor do cursor
-              style: TextStyle(color: Colors.black), // Cor do texto digitado
+            const SizedBox(height: 8),
+            _buildTextField(
+              controller: _nomeController,
+              labelText: 'Nome de usuário',
+              borderColor: Colors.black,
+              borderRadius: 16.0,
+              borderWidth: 2.0,
             ),
-            const SizedBox(height: 20), // Espaço entre os campos de texto
+
+            const SizedBox(height: 20),
 
             // Campo ID:
             const Text(
@@ -64,42 +112,31 @@ class TelaBuscarUsuario extends StatelessWidget {
               style: TextStyle(
                 fontSize: 20,
                 color: Colors.black,
-                fontFamily: 'Montserrat',
               ),
-            ),
-            const SizedBox(height: 8), // Espaço entre o label e o TextField
-            const TextField(
-              keyboardType: TextInputType.number, // Sugere teclado numérico para ID
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black, width: 2.0),
-                  borderRadius: BorderRadius.all(Radius.circular(16.0)),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black, width: 2.0),
-                  borderRadius: BorderRadius.all(Radius.circular(16.0)),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black, width: 2.0),
-                  borderRadius: BorderRadius.all(Radius.circular(16.0)),
-                ),
-                contentPadding: EdgeInsets.symmetric(vertical: 12.0, horizontal: 10.0),
-              ),
-              cursorColor: Colors.black,
-              style: TextStyle(color: Colors.black),
             ),
 
-            const Spacer(), // Ocupa todo o espaço disponível, empurrando o botão para baixo
+            const SizedBox(height: 8),
+
+            _buildTextField(
+              controller: _idController,
+              labelText: 'ID',
+              keyboardType: TextInputType.number,
+              borderColor: Colors.black,
+              borderRadius: 16.0,
+              borderWidth: 2.0,
+            ),
+
+            const SizedBox(height: 70),
 
             Center(
               child: SizedBox(
                 width: MediaQuery.of(context).size.width * 0.7,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(context,MaterialPageRoute(builder: (context) => const TelaBuscarTodosUsuarios()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const TelaBuscarTodosUsuarios()));
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.yellow[100], // Cor de fundo amarela clara
+                    backgroundColor: _laranjaClaro,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                       side: const BorderSide(color: Colors.black, width: 1.0),
@@ -123,18 +160,20 @@ class TelaBuscarUsuario extends StatelessWidget {
             // Botão BUSCAR
             Center(
               child: SizedBox(
-                width: MediaQuery.of(context).size.width * 0.7, // Mesma largura do botão "VOLTAR"
+                width: MediaQuery.of(context).size.width * 0.7,
                 child: ElevatedButton(
                   onPressed: () {
-                    // Ação ao pressionar o botão BUSCAR
+                    final String nomeDigitado = _nomeController.text;
+                    final String idDigitado = _idController.text;
                     print('Botão BUSCAR pressionado!');
-                    // Implemente sua lógica de busca aqui
+                    print('Nome: $nomeDigitado, ID: $idDigitado');
+                    //chamar funcao de busca
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.yellow[100], // Cor de fundo do botão (amarelo claro)
+                    backgroundColor: _laranjaClaro,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30), // Borda arredondada
-                      side: const BorderSide(color: Colors.black, width: 1.0), // Borda preta
+                      borderRadius: BorderRadius.circular(30),
+                      side: const BorderSide(color: Colors.black, width: 1.0),
                     ),
                     padding: const EdgeInsets.symmetric(vertical: 15),
                     elevation: 0,
@@ -150,15 +189,11 @@ class TelaBuscarUsuario extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 20), // Espaço acima da linha separadora inferior
-            const Divider(height: 1, thickness: 1.0, color: Colors.black), // Linha separadora
+            const SizedBox(height: 40),
           ],
         ),
       ),
-
-      // --- Seu Widget de Bottom Navigation Bar ---
-      bottomNavigationBar: menuBottomNavigationBar(context, 1), // O índice pode variar dependendo de qual ícone deve estar ativo
-      // --- Fim do seu Widget de Bottom Navigation Bar ---
+      bottomNavigationBar: menuBottomNavigationBar(context, 1),
     );
   }
 }

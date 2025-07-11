@@ -4,8 +4,6 @@ import 'package:mathkraft/widgets/menu_navigation_bar_widget.dart';
 
 class TelaInicialJogos extends StatelessWidget {
 
-  
-
   @override
   Widget build(BuildContext context) {
 

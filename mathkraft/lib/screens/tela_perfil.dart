@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mathkraft/screens/tela_boas_vindas.dart';
 import 'package:mathkraft/widgets/menu_navigation_bar_widget.dart';
 import 'package:mathkraft/widgets/button_cancelar_confimar.dart';
+import 'package:mathkraft/screens/tela_editar_conta.dart';
 
 class TelaPerfil extends StatefulWidget {
   const TelaPerfil({super.key});
@@ -196,13 +197,13 @@ class _TelaPerfilState extends State<TelaPerfil>{
               children: <Widget>[
                 _buildActionButton(
                   context,
-                  text: 'Editar Perfil',
+                  text: 'Editar Conta',
                   icon: Icons.edit_outlined,
                   color: Color.fromRGBO(255, 247, 177, 1), 
                   textColor: Colors.black,
                   iconColor: Colors.black,
                   onPressed: () {
-                    // 
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => const TelaEditarConta()));
                   },
                 ),
                 SizedBox(height: 25.0),

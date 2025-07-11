@@ -4,15 +4,39 @@ import 'package:mathkraft/screens/tela_criar_pergunta.dart';
 import 'package:mathkraft/screens/tela_buscar_usuario.dart';
 import 'package:mathkraft/screens/tela_consultar_perguntas.dart';
 
-
-class TelaAdmin extends StatefulWidget {
-  const TelaAdmin({super.key});
-
-  @override
-  State<TelaAdmin> createState() => _TelaAdminState();
+Widget _buildAdminButton({
+  required String text,
+  required Color buttonColor,
+  required VoidCallback onPressed,
+}) {
+  return SizedBox(
+    width: double.infinity,
+    child: ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        backgroundColor: buttonColor,
+        foregroundColor: Colors.black,
+        padding: const EdgeInsets.symmetric(vertical: 35.0),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(22.0),
+        ),
+        side: const BorderSide(color: Colors.black, width: 2.0),
+        elevation: 0,
+      ),
+      onPressed: onPressed,
+      child: Text(
+        text,
+        style: const TextStyle(
+          fontSize: 22,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+    ),
+  );
 }
 
-class _TelaAdminState extends State<TelaAdmin> {
+class TelaAdmin extends StatelessWidget {
+  const TelaAdmin({super.key});
+
   @override
   Widget build(BuildContext context) {
     const Color verde = Color.fromRGBO(224, 255, 255, 1);
@@ -30,7 +54,7 @@ class _TelaAdminState extends State<TelaAdmin> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
+                  const Text(
                     'MathKraft',
                     style: TextStyle(
                       fontSize: 40.0,
@@ -69,7 +93,6 @@ class _TelaAdminState extends State<TelaAdmin> {
                 buttonColor: verde,
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => const TelaConsultarPerguntas()));
-
                 },
               ),
               const SizedBox(height: 40),
@@ -85,37 +108,6 @@ class _TelaAdminState extends State<TelaAdmin> {
         ),
       ),
       bottomNavigationBar: menuBottomNavigationBar(context, 0),
-    );
-  }
-
-  // Widget auxiliar para criar os botões
-  Widget _buildAdminButton({
-    required String text,
-    required Color buttonColor,
-    required VoidCallback onPressed,
-  }) {
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          backgroundColor: buttonColor,
-          foregroundColor: Colors.black,
-          padding: const EdgeInsets.symmetric(vertical: 35.0),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(22.0),
-          ),
-          side: const BorderSide(color: Colors.black, width: 2.0),
-          elevation: 0,
-        ),
-        onPressed: onPressed,
-        child: Text(
-          text,
-          style: const TextStyle(
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
     );
   }
 }

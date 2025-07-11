@@ -2,8 +2,70 @@ import 'package:flutter/material.dart';
 import 'package:mathkraft/widgets/header_mathkraft.dart';
 import 'package:mathkraft/widgets/menu_navigation_bar_widget.dart';
 
-class TelaBuscarTodosUsuarios extends StatelessWidget {
+class UserListItem extends StatelessWidget {
+  final String username;
+
+  const UserListItem({
+    super.key,
+    required this.username,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 12.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            username,
+            style: const TextStyle(
+              fontSize: 20,
+              color: Colors.black,
+            ),
+          ),
+          Row(
+            children: [
+              IconButton(
+                icon: const Icon(Icons.search, color: Colors.black),
+                onPressed: () {
+                  print('Buscar detalhes de $username');
+                },
+              ),
+              IconButton(
+                icon: const Icon(Icons.edit, color: Colors.black),
+                onPressed: () {
+                  print('Editar $username');
+                },
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class TelaBuscarTodosUsuarios extends StatefulWidget {
   const TelaBuscarTodosUsuarios({super.key});
+
+  @override
+  State<TelaBuscarTodosUsuarios> createState() => _TelaBuscarTodosUsuariosState();
+}
+
+class _TelaBuscarTodosUsuariosState extends State<TelaBuscarTodosUsuarios> {
+  late List<String> _users;
+
+  @override
+  void initState() {
+    super.initState();
+    _users = ['@davidba', '@isallets', '@isabellyandrade', '@igormteles'];
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,13 +100,12 @@ class TelaBuscarTodosUsuarios extends StatelessWidget {
                 ),
                 padding: const EdgeInsets.all(16.0),
                 child: ListView(
-                  // Lista de usuários
-                  children: const [
-                    UserListItem(username: '@davidba'),
-                    UserListItem(username: '@isallets'),
-                    UserListItem(username: '@isabellyandrade'),
-                    UserListItem(username: '@igormteles'),
-                  ],
+                    children: const [
+                      UserListItem(username: '@davidba'),
+                      UserListItem(username: '@isallets'),
+                      UserListItem(username: '@isabellyandrade'),
+                      UserListItem(username: '@igormteles'),
+                    ]
                 ),
               ),
             ),
@@ -82,55 +143,8 @@ class TelaBuscarTodosUsuarios extends StatelessWidget {
           ],
         ),
       ),
-
       bottomNavigationBar: menuBottomNavigationBar(context, 1),
     );
   }
 }
 
-// Widget auxiliar para cada item da lista de usuários (provavelmente vai mudar)
-class UserListItem extends StatelessWidget {
-  final String username;
-
-  const UserListItem({
-    super.key,
-    required this.username,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            username,
-            style: const TextStyle(
-              fontSize: 20,
-              color: Colors.black,
-            ),
-          ),
-          Row(
-            children: [
-              IconButton(
-                icon: const Icon(Icons.search, color: Colors.black),
-                onPressed: () {
-                  // Ação para o ícone de lupa
-                  print('Buscar $username');
-                },
-              ),
-              IconButton(
-                icon: const Icon(Icons.edit, color: Colors.black),
-                onPressed: () {
-                  // Ação para o ícone de lápis
-                  print('Editar $username');
-                },
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-}
