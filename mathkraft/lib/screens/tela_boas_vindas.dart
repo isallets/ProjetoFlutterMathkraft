@@ -1,10 +1,37 @@
 import 'package:flutter/material.dart';
-import 'package:mathkraft/backend/model/user_admin.dart';
-import 'package:mathkraft/backend/controller/user_controller.dart';
-import 'package:mathkraft/frontend/screens/tela_criar_conta.dart';
-import 'package:mathkraft/frontend/screens/tela_recuperar_senha.dart';
-import 'package:mathkraft/frontend/screens/tela_admin.dart';
-import 'package:mathkraft/frontend/screens/tela_inicial_jogos.dart';
+import 'package:mathkraft/model/user_admin.dart';
+import 'package:mathkraft/controller/user_controller.dart';
+import 'package:mathkraft/screens/tela_criar_conta.dart';
+import 'package:mathkraft/screens/tela_recuperar_senha.dart';
+import 'package:mathkraft/screens/tela_admin.dart';
+import 'package:mathkraft/screens/tela_inicial_jogos.dart';
+import 'package:mathkraft/repository/user_repository.dart';
+import 'package:mathkraft/validators/validators.dart';
+import 'package:mathkraft/model/user_model.dart';
+
+class UserLoginService {
+  late UserRepository userRepository;
+  static final UserLoginService _instancia = UserLoginService._();
+  Validators v = Validators();
+
+//construtor anonimo para impedir instâncias em outras classes
+  UserLoginService._(){
+    userRepository = UserRepository.instance;
+  }
+
+//função para permitir acesso à instância
+  static UserLoginService get instancia {
+    return _instancia;
+  }
+
+  User? validaLogin(String nome, String senha){
+    return v.validaLogin(nome, senha);
+  }
+
+  String verificaTipo (User u){
+    return v.verificaTipo(u);
+  }
+}
 
   class TelaBoasVindas extends StatelessWidget {
   const TelaBoasVindas({super.key});

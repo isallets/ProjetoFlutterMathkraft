@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mathkraft/frontend/dialogs/resposta_dialog.dart';
+import 'package:mathkraft/dialogs/resposta_dialog.dart';
 
 class AlternativaButton {
   

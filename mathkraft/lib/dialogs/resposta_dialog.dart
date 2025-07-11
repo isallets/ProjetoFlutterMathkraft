@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mathkraft/frontend/widgets/proxima_fase_button.dart';
-import 'package:mathkraft/frontend/widgets/tente_novamente_button.dart';
+import 'package:mathkraft/widgets/proxima_fase_button.dart';
+import 'package:mathkraft/widgets/tente_novamente_button.dart';
 
 
 class RespostaDialog {

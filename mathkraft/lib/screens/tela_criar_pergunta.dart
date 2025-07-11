@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 
-import 'package:mathkraft/frontend/widgets/menu_navigation_bar_widget.dart';
+import 'package:mathkraft/widgets/menu_navigation_bar_widget.dart';
 
 class TelaCriarPergunta extends StatefulWidget {
   const TelaCriarPergunta({super.key});

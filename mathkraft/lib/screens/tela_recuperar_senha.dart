@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mathkraft/frontend/widgets/app_bar_voltar_button.dart';
+import 'package:mathkraft/widgets/app_bar_voltar_button.dart';
 
 class TelaRecuperarSenha extends StatefulWidget {
   const TelaRecuperarSenha({super.key});

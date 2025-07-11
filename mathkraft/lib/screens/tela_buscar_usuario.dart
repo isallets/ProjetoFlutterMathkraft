@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mathkraft/frontend/screens/tela_buscar_todos_usuarios.dart';
-import 'package:mathkraft/frontend/widgets/header_mathkraft.dart';
-import 'package:mathkraft/frontend/widgets/menu_navigation_bar_widget.dart';
+import 'package:mathkraft/screens/tela_buscar_todos_usuarios.dart';
+import 'package:mathkraft/widgets/header_mathkraft.dart';
+import 'package:mathkraft/widgets/menu_navigation_bar_widget.dart';
 
 class TelaBuscarUsuario extends StatelessWidget {
   const TelaBuscarUsuario({super.key});

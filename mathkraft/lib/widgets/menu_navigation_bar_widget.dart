@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:mathkraft/frontend/screens/tela_perfil.dart';
-import 'package:mathkraft/frontend/screens/tela_inicial_jogos.dart';
+import 'package:mathkraft/screens/tela_perfil.dart';
+import 'package:mathkraft/screens/tela_inicial_jogos.dart';
 
 Widget menuBottomNavigationBar(BuildContext context, int selectedIndex) {
   return BottomNavigationBar(

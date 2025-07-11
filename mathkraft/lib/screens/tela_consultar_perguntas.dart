@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mathkraft/frontend/widgets/header_mathkraft.dart';
-import 'package:mathkraft/frontend/widgets/menu_navigation_bar_widget.dart';
-import 'package:mathkraft/frontend/screens/tela_editar_pergunta.dart';
+import 'package:mathkraft/widgets/header_mathkraft.dart';
+import 'package:mathkraft/widgets/menu_navigation_bar_widget.dart';
+import 'package:mathkraft/screens/tela_editar_pergunta.dart';
 
 class TelaConsultarPerguntas extends StatelessWidget {
   const TelaConsultarPerguntas({super.key});

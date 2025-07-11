@@ -1,9 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:mathkraft/backend/controller/user_controller.dart';
-import 'package:mathkraft/backend/service.dart/user_service.dart';
+import 'package:mathkraft/controller/user_controller.dart';
 import 'dart:async';
+import 'package:mathkraft/widgets/app_bar_voltar_button.dart';
+import 'package:mathkraft/repository/user_repository.dart';
+import 'package:mathkraft/validators/validators.dart';
 
-import 'package:mathkraft/frontend/widgets/app_bar_voltar_button.dart';
+class UserCriarService {
+  late UserRepository userRepository;
+  static final UserCriarService _instancia = UserCriarService._();
+  Validators v = Validators();
+
+//construtor anonimo para impedir instâncias em outras classes
+  UserCriarService._(){
+    userRepository = UserRepository.instance;
+  }
+
+//função para permitir acesso à instância
+  static UserCriarService get instancia {
+    return _instancia;
+  }
+
+  void criarUser (String nome, String senha, String telefone){
+    userRepository.addUser(nome, senha, telefone);
+  }
+}
 
 class TelaCriarConta extends StatelessWidget {
   const TelaCriarConta({super.key});

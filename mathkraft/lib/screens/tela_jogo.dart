@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mathkraft/frontend/widgets/alternativa_button.dart';
-import 'package:mathkraft/frontend/widgets/app_bar_voltar_button.dart';
-import 'package:mathkraft/frontend/dialogs/resposta_dialog.dart';
+import 'package:mathkraft/widgets/alternativa_button.dart';
+import 'package:mathkraft/widgets/app_bar_voltar_button.dart';
+import 'package:mathkraft/dialogs/resposta_dialog.dart';
 
 
 class TelaJogo extends StatefulWidget {

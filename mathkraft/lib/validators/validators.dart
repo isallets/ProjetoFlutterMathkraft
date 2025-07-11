@@ -1,6 +1,6 @@
-import 'package:mathkraft/backend/model/user_admin.dart';
-import 'package:mathkraft/backend/model/user_model.dart';
-import 'package:mathkraft/backend/repository/user_repository.dart';
+import 'package:mathkraft/model/user_admin.dart';
+import 'package:mathkraft/model/user_model.dart';
+import 'package:mathkraft/repository/user_repository.dart';
 
 class Validators {
   final List<String> dddsInvalidos = [

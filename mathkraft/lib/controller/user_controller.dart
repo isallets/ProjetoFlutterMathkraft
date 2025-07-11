@@ -1,18 +1,18 @@
-import 'package:mathkraft/backend/model/user_model.dart';
-import 'package:mathkraft/backend/service.dart/user_service.dart';
+import 'package:mathkraft/model/user_model.dart';
+import 'package:mathkraft/screens/tela_criar_conta.dart';
+import 'package:mathkraft/screens/tela_boas_vindas.dart';
 
 class UserController {
   static final UserController _instancia = UserController._();
 
   UserController._();
-  
 
   static UserController get instance{
     return _instancia;
   }
 
   void criarUser(String nome, String senha, String telefone){
-    UserService.instancia.criarUser(nome, senha, telefone);
+    UserCriarService.instancia.criarUser(nome, senha, telefone);
   }
 
   
@@ -21,7 +21,7 @@ class UserController {
       return "Usuário e/ou Senha inválidos!!!";
     }
     else{
-      User? user = UserService.instancia.validaLogin(nome, senha);
+      User? user = UserLoginService.instancia.validaLogin(nome, senha);
 
       if(user == null){
         return "Usuário e/ou senha incorretos!!!";
