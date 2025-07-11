@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-
-import 'package:mathkraft/widgets/menu_navigation_bar_widget.dart';
+import 'package:mathkraft/widgets/admin_menu_navigation_bar_widget.dart';
 
 class TelaEditarPergunta extends StatefulWidget {
   const TelaEditarPergunta({super.key});
@@ -132,7 +131,7 @@ class _TelaEditarPerguntaState extends State<TelaEditarPergunta> {
                   ),
                   onPressed: _SucessoDialog,
                   child: const Text(
-                    'Salvar Alterações',
+                    'SALVAR ALTERAÇÕES',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
                   ),
                 ),
@@ -141,7 +140,7 @@ class _TelaEditarPerguntaState extends State<TelaEditarPergunta> {
           ),
         ),
       ),
-      bottomNavigationBar: menuBottomNavigationBar(context, 0),
+      bottomNavigationBar: adminMenuBottomNavigationBar(context, 0),
     );
   }
 

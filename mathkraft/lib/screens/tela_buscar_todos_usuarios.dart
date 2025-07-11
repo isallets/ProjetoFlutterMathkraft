@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mathkraft/widgets/header_mathkraft.dart';
-import 'package:mathkraft/widgets/menu_navigation_bar_widget.dart';
+import 'package:mathkraft/widgets/admin_menu_navigation_bar_widget.dart';
+import 'package:mathkraft/screens/tela_editar_conta.dart';
 
 class UserListItem extends StatelessWidget {
   final String username;
@@ -29,13 +30,13 @@ class UserListItem extends StatelessWidget {
               IconButton(
                 icon: const Icon(Icons.search, color: Colors.black),
                 onPressed: () {
-                  print('Buscar detalhes de $username');
+                  //alert
                 },
               ),
               IconButton(
                 icon: const Icon(Icons.edit, color: Colors.black),
                 onPressed: () {
-                  print('Editar $username');
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => const TelaEditarConta()));
                 },
               ),
             ],
@@ -143,7 +144,7 @@ class _TelaBuscarTodosUsuariosState extends State<TelaBuscarTodosUsuarios> {
           ],
         ),
       ),
-      bottomNavigationBar: menuBottomNavigationBar(context, 1),
+      bottomNavigationBar: adminMenuBottomNavigationBar(context, 1),
     );
   }
 }

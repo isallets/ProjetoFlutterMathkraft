@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mathkraft/widgets/menu_navigation_bar_widget.dart';
 import 'package:mathkraft/screens/tela_criar_pergunta.dart';
 import 'package:mathkraft/screens/tela_buscar_usuario.dart';
 import 'package:mathkraft/screens/tela_consultar_perguntas.dart';
+import 'package:mathkraft/widgets/menu_navigation_bar_widget.dart';
 
 Widget _buildAdminButton({
   required String text,
@@ -107,7 +107,7 @@ class TelaAdmin extends StatelessWidget {
           ),
         ),
       ),
-      bottomNavigationBar: menuBottomNavigationBar(context, 0),
+      bottomNavigationBar: menuBottomNavigationBar(context, 1),
     );
   }
 }

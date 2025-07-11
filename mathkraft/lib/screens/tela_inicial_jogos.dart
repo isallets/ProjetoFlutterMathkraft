@@ -55,7 +55,7 @@ class TelaInicialJogos extends StatelessWidget {
             //botão verde jogar
             ElevatedButton(
               onPressed: () {
-                //
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TelaJogo()));
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Color.fromRGBO(224, 255, 255, 1),

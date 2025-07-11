@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:mathkraft/screens/tela_buscar_todos_usuarios.dart'; // Assumindo seu caminho real
-import 'package:mathkraft/widgets/header_mathkraft.dart'; // Assumindo seu caminho real
-import 'package:mathkraft/widgets/menu_navigation_bar_widget.dart'; // Assumindo seu caminho real
+import 'package:mathkraft/screens/tela_buscar_todos_usuarios.dart';
+import 'package:mathkraft/widgets/header_mathkraft.dart';
+import 'package:mathkraft/widgets/admin_menu_navigation_bar_widget.dart';
 
-// --- TELA BUSCAR USUARIO (AGORA STATEFUL) ---
 class TelaBuscarUsuario extends StatefulWidget {
   const TelaBuscarUsuario({super.key});
 
@@ -15,7 +14,6 @@ class _TelaBuscarUsuarioState extends State<TelaBuscarUsuario> {
   late TextEditingController _nomeController;
   late TextEditingController _idController;
 
-  // Cores (se houver alguma específica que você queira definir aqui)
   final Color _laranjaClaro = Colors.yellow[100]!;
 
   @override
@@ -193,7 +191,7 @@ class _TelaBuscarUsuarioState extends State<TelaBuscarUsuario> {
           ],
         ),
       ),
-      bottomNavigationBar: menuBottomNavigationBar(context, 1),
+      bottomNavigationBar: adminMenuBottomNavigationBar(context, 1),
     );
   }
 }

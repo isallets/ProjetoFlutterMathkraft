@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mathkraft/validators/validators.dart'; // Importado do seu código
 import 'dart:async';
 import 'package:mathkraft/widgets/app_bar_voltar_button.dart';
+import 'package:mathkraft/screens/tela_recuperar_senha.dart';
 
 class TelaEditarConta extends StatefulWidget {
   const TelaEditarConta({super.key});
@@ -104,7 +105,9 @@ class _TelaEditarContaState extends State<TelaEditarConta> {
               SizedBox(
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: (){},
+                  onPressed: (){
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NovaSenhaDialog()));
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: _corBotao,
                     foregroundColor: _corTextoBotao,
@@ -116,7 +119,7 @@ class _TelaEditarContaState extends State<TelaEditarConta> {
                     elevation: 0,
                   ),
                   child: const Text(
-                    'Alterar Senha',
+                    'ALTERAR SENHA',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -141,7 +144,7 @@ class _TelaEditarContaState extends State<TelaEditarConta> {
                     elevation: 0,
                   ),
                   child: const Text(
-                    'Salvar Alterações',
+                    'SALVAR ALTERAÇÕES',
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                 ),

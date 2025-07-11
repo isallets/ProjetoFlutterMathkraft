@@ -30,7 +30,7 @@ class _TelaPerfilState extends State<TelaPerfil>{
                 Text(
                   'Deseja sair?',
                   style: TextStyle(
-                    fontSize: 20.0,
+                    fontSize: 25.0,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
                   ),
@@ -85,7 +85,7 @@ class _TelaPerfilState extends State<TelaPerfil>{
                 Text(
                   'Deseja excluir a conta?',
                   style: TextStyle(
-                    fontSize: 30.0,
+                    fontSize: 25.0,
                     fontWeight: FontWeight.bold,
                     color: Colors.black,
                   ),

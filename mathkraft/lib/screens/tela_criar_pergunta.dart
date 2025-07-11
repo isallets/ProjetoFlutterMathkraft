@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
-
-import 'package:mathkraft/widgets/menu_navigation_bar_widget.dart';
+import 'package:mathkraft/widgets/admin_menu_navigation_bar_widget.dart';
 
 class TelaCriarPergunta extends StatefulWidget {
   const TelaCriarPergunta({super.key});
@@ -141,7 +140,7 @@ class _TelaCriarPerguntaState extends State<TelaCriarPergunta> {
           ),
         ),
       ),
-      bottomNavigationBar: menuBottomNavigationBar(context, 0),
+      bottomNavigationBar: adminMenuBottomNavigationBar(context, 0),
     );
   }
 
