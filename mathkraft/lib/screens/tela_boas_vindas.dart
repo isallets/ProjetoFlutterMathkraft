@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:mathkraft/model/user_admin.dart';
 import 'package:mathkraft/controller/user_controller.dart';
 import 'package:mathkraft/screens/tela_criar_conta.dart';
 import 'package:mathkraft/screens/tela_recuperar_senha.dart';
 import 'package:mathkraft/screens/tela_admin.dart';
 import 'package:mathkraft/screens/tela_inicial_jogos.dart';
 import 'package:mathkraft/repository/user_repository.dart';
-import 'package:mathkraft/validators/validators.dart';
-import 'package:mathkraft/model/user_model.dart';
 import 'dart:async';
 
 class UserLoginService {
   late UserRepository userRepository;
   static final UserLoginService _instancia = UserLoginService._();
-  Validators v = Validators();
+
 
   // Construtor anônimo para impedir instâncias em outras classes
   UserLoginService._(){
@@ -23,14 +20,6 @@ class UserLoginService {
   // Função para permitir acesso à instância
   static UserLoginService get instancia {
     return _instancia;
-  }
-
-  User? validaLogin(String nome, String senha){
-    return v.validaLogin(nome, senha);
-  }
-
-  String verificaTipo (User u){
-    return v.verificaTipo(u);
   }
 }
 
@@ -49,6 +38,50 @@ class _TelaBoasVindasState extends State<TelaBoasVindas> {
   final Color laranja = Colors.orange;
   final Color preto = Colors.black;
   final Color cinza = const Color(0xFF424242);
+
+  void _logar(String nome, String senha) async{
+    _loginResult = await UserController.instance.logar(
+                        nome,
+                        senha
+                      );
+  
+                      if (_loginResult.runtimeType == String) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext dialogContext) {
+                          Timer(const Duration(seconds: 2), () {
+                            Navigator.of(dialogContext).pop();
+                          });
+                          return AlertDialog(
+                            backgroundColor: const Color.fromARGB(255, 255, 179, 149),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0),
+                            ),
+                            content: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  _loginResult,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    } else if (_loginResult == 0) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => const TelaAdmin()),
+                      );
+                    } else if (_loginResult == 1) {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => TelaInicialJogos()),
+                      );
+                    }
+                    setState (() {});
+  }
 
   @override
   void initState() {
@@ -163,48 +196,13 @@ class _TelaBoasVindasState extends State<TelaBoasVindas> {
                     elevation: 0,
                   ),
                   onPressed: () {
-                    setState(() {
-                      _loginResult = UserController.instance.logar(
-                        _nomeController.text,
-                        _senhaController.text,
+                    _logar(
+                      _nomeController.text,
+                      _senhaController.text
                       );
-                    });
+                    
 
-                    if (_loginResult.runtimeType == String) {
-                      showDialog(
-                        context: context,
-                        builder: (BuildContext dialogContext) {
-                          Timer(const Duration(seconds: 2), () {
-                            Navigator.of(dialogContext).pop();
-                          });
-                          return AlertDialog(
-                            backgroundColor: const Color.fromARGB(255, 255, 179, 149),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20.0),
-                            ),
-                            content: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Text(
-                                  _loginResult,
-                                  textAlign: TextAlign.center,
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      );
-                    } else if (_loginResult.runtimeType == UserAdmin) {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => const TelaAdmin()),
-                      );
-                    } else if (_loginResult is User) {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => TelaInicialJogos()),
-                      );
-                    }
+                    
                   },
                   child: const Row(
                     mainAxisAlignment: MainAxisAlignment.center,

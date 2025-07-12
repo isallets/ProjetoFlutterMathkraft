@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mathkraft/controller/user_controller.dart';
 import 'package:mathkraft/screens/tela_boas_vindas.dart';
 import 'package:mathkraft/widgets/menu_navigation_bar_widget.dart';
 import 'package:mathkraft/widgets/button_cancelar_confimar.dart';
@@ -14,6 +15,7 @@ class TelaPerfil extends StatefulWidget {
 class _TelaPerfilState extends State<TelaPerfil>{
 
   //botão sair da conta
+
   void _buttonSairContaDialog() {
     showDialog(
       context: context,
@@ -125,6 +127,7 @@ class _TelaPerfilState extends State<TelaPerfil>{
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -161,7 +164,7 @@ class _TelaPerfilState extends State<TelaPerfil>{
                 ),
                 SizedBox(height: 15.0),
                 Text(
-                  '@celia',
+                  '@${UserController.instance.nome}',
                   style: TextStyle(
                     fontSize: 32.0,
                     fontWeight: FontWeight.bold,
@@ -170,7 +173,7 @@ class _TelaPerfilState extends State<TelaPerfil>{
                 ),
                 SizedBox(height: 5.0),
                 Text(
-                  '153',
+                  '${UserController.instance.pontuacao}',
                   style: TextStyle(
                     fontSize: 28.0,
                     fontWeight: FontWeight.bold,

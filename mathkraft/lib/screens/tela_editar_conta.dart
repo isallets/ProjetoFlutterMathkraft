@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mathkraft/validators/validators.dart'; // Importado do seu código
 import 'dart:async';
 import 'package:mathkraft/widgets/app_bar_voltar_button.dart';
 import 'package:mathkraft/screens/tela_recuperar_senha.dart';
@@ -18,14 +17,13 @@ class _TelaEditarContaState extends State<TelaEditarConta> {
   final Color _corBotao = const Color.fromRGBO(204, 238, 243, 1.0); // Um tom de azul claro do design
   final Color _corTextoBotao = Colors.black;
   final Color _cinza = const Color(0xFF424242);
-  late Validators _validators;
+
 
   @override
   void initState() {
     super.initState();
     _nomeUsuarioController = TextEditingController();
     _telefoneController = TextEditingController();
-    _validators = Validators(); // Inicializa Validators
   }
 
   @override

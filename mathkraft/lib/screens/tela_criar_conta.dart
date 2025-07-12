@@ -2,28 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:mathkraft/controller/user_controller.dart';
 import 'dart:async';
 import 'package:mathkraft/widgets/app_bar_voltar_button.dart';
-import 'package:mathkraft/repository/user_repository.dart';
-import 'package:mathkraft/validators/validators.dart';
-
-class UserCriarService {
-  late UserRepository userRepository;
-  static final UserCriarService _instancia = UserCriarService._();
-  Validators v = Validators();
-
-  // Construtor anônimo para impedir instâncias em outras classes
-  UserCriarService._(){
-    userRepository = UserRepository.instance;
-  }
-
-  // Função para permitir acesso à instância
-  static UserCriarService get instancia {
-    return _instancia;
-  }
-
-  void criarUser (String nome, String senha, String telefone){
-    userRepository.addUser(nome, senha, telefone);
-  }
-}
 
 class TelaCriarConta extends StatefulWidget {
   const TelaCriarConta({super.key});
@@ -37,6 +15,7 @@ class _TelaCriarContaState extends State<TelaCriarConta> {
   late TextEditingController _senha1Controller;
   late TextEditingController _senha2Controller;
   late TextEditingController _telefoneController;
+  late List<Map> _criada;
 
   final Color laranja = const Color.fromRGBO(249, 206, 79, 1);
   final Color cinza = const Color(0xFF424242);
@@ -48,6 +27,7 @@ class _TelaCriarContaState extends State<TelaCriarConta> {
     _senha1Controller = TextEditingController();
     _senha2Controller = TextEditingController();
     _telefoneController = TextEditingController();
+    _criada = List.empty();
   }
 
   @override
@@ -58,6 +38,7 @@ class _TelaCriarContaState extends State<TelaCriarConta> {
     _senha2Controller.dispose();
     _telefoneController.dispose();
     super.dispose();
+
   }
 
   void _showSuccessDialog() {
@@ -77,6 +58,24 @@ class _TelaCriarContaState extends State<TelaCriarConta> {
         );
       },
     );
+  }
+
+  void _criarUser(String nome, String senha1, String telefone) async{
+    _criada = await UserController.instance.criarUser(
+                    _nomeController.text,
+                    _senha1Controller.text,
+                    _telefoneController.text
+                  );
+
+                  if(_criada.isNotEmpty){
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Já existe um usuário com este nome')),
+                    );
+                    return;
+                  }
+                  else{
+                    _showSuccessDialog(); // Chamada CORRETA da função
+                  }
   }
 
   Widget _buildSuccessView() {
@@ -219,14 +218,21 @@ class _TelaCriarContaState extends State<TelaCriarConta> {
                     );
                     return;
                   }
+                  if(_telefoneController.text.length != 11){
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('Telefone Inválido')),
+                    );
+                    return;
+                  }
 
                   // Chamada correta ao UserController para criar o usuário
-                  UserController.instance.criarUser(
+                  _criarUser(
                     _nomeController.text,
                     _senha1Controller.text,
-                    _telefoneController.text,
-                  );
-                  _showSuccessDialog(); // Chamada CORRETA da função
+                    _telefoneController.text
+                    );
+                  
+               
                   // --- Fim da Lógica ---
                 },
                 child: const Row(
