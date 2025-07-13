@@ -1,63 +1,129 @@
-import 'dart:developer';
-
-import 'package:mathkraft/database/mathkraft_db.dart';
+import 'package:flutter/material.dart';
+import 'package:mathkraft/model/user_admin.dart';
+import 'package:mathkraft/model/user_model.dart';
 import 'package:mathkraft/repository/user_repository.dart';
+import 'package:mathkraft/screens/tela_admin.dart';
+import 'package:mathkraft/screens/tela_boas_vindas.dart';
+import 'package:mathkraft/screens/tela_inicial_jogos.dart';
 
 class UserController {
-  static final UserController _instancia = UserController._();
-  late int idLogado;
-  late String nome;
-  late String senha;
-  late String telefone;
-  late int pontuacao;
+  static final UserController instance = UserController._();
+  final UserRepository _repository = UserRepository.instance;
+
+  User? currentUser;
 
   UserController._();
 
-  static UserController get instance{
-    return _instancia;
-  }
-
-  Future<List<Map>> criarUser(String nome, String senha1, String telefone) async {
-    var db = await MathkraftDb.getInstance();
-    List<Map> user = await db.rawQuery('SELECT * FROM user WHERE nome="$nome"');
-    if(user.isEmpty){
-      UserRepository.instance.addUser(nome, senha1, telefone);
+  Future<void> login(BuildContext context, String username, String senha) async {
+    if (username.isEmpty || senha.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Por favor, preencha todos os campos.'), backgroundColor: Colors.orange),
+      );
+      return;
     }
-    return user;
-  }
-
-  Future<dynamic> logar (String nome, String senha) async{
     
-    var db = await MathkraftDb.getInstance();
-    List<Map> userLogin = await UserRepository.instance.buscarNome(nome);
+    final user = await _repository.login(username, senha);
 
-    if(nome.isEmpty || senha.isEmpty){
-      return "Usuário e/ou Senha inválidos!!!";
-    }
-    else{
-      if(userLogin.isEmpty){
-        return "Usuário e/ou senha incorretos!!!";
+    if (user != null) {
+      currentUser = user; // Guarda o usuário que logou.
+      
+      if (user is UserAdmin) {
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const TelaAdmin()));
+      } else {
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TelaInicialJogos()));
       }
-      else{
-        for(var user in userLogin){
-          if(user['senha'] == senha){
-            idLogado = user['id'];
-            this.nome = user['nome'];
-            this.senha = user['senha'];
-            telefone = user['telefone'];
-            pontuacao = user['pontuacao'];
-          }
-        }
-        log(idLogado.toString());
-        List<Map> admin = await db.rawQuery('SELECT * FROM user INNER JOIN id_admin ON id_admin.id = user.id WHERE user.id = $idLogado');
-        
-        if(admin.isNotEmpty){
-          return 0;
-        }
-        else{
-          return 1;
-        }
-      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Nome de usuário ou senha inválidos.'), backgroundColor: Colors.red),
+      );
     }
   }
+
+  Future<bool> createUser(String nome, String senha, String telefone) async {
+    final novoUser = await _repository.addUser(nome, senha, telefone);
+    return novoUser != null; 
+  }
+
+  void logout(BuildContext context) {
+    currentUser = null; // Limpa os dados do usuário logado
+
+    Navigator.of(context).pushAndRemoveUntil(
+      MaterialPageRoute(builder: (context) => const TelaBoasVindas()),
+      (Route<dynamic> route) => false, 
+    );
+  }
+
+  Future<void> deletarConta(BuildContext context) async {
+    if (currentUser != null) {
+      await _repository.deleteUser(currentUser!.id!);
+      
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Conta excluída com sucesso.'), backgroundColor: Colors.green),
+      );
+      logout(context); 
+    }
+  } 
+  Future<List<User>> getAllUsers() {
+    return _repository.getAllUsers();
+  }
+
+  Future<void> deleteUser(int id) {
+    return _repository.deleteUser(id);
+  }
+
+  Future<void> updateUser(User user) {
+    return _repository.updateUser(user);
+  }
+
+  Future<User?> getUserById(int id) {
+    return _repository.getUserById(id);
+  }
+
+  Future<User?> getUserByUsername(String nome) {
+    return _repository.getUserByUsername(nome);
+  }
+
+  Future<User?> verificarUsuario(String nome, String telefone) async {
+    final user = await _repository.getUserByUsername(nome);
+
+    if (user != null && user.telefone == telefone) {
+      return user;
+    }
+    return null; 
+  }
+
+  Future<String?> redefinirSenha({
+    required int userId,
+    required String novaSenha,
+    required String confirmarSenha,
+  }) async {
+    if (novaSenha != confirmarSenha) {
+      return 'As senhas não coincidem';
+    }
+    if (novaSenha == null) {
+      return 'Digite a nova senha';
+    }
+
+    final user = await _repository.getUserById(userId);
+    if (user == null) {
+      return 'Erro: Usuário não encontrado.';
+    }
+
+    final usuarioComNovaSenha = User(
+      id: user.id,
+      nome: user.nome,
+      telefone: user.telefone,
+      pontuacao: user.pontuacao,
+      senha: novaSenha, 
+    );
+
+    await _repository.updateUser(usuarioComNovaSenha);
+    
+    if (currentUser?.id == userId) {
+      currentUser = usuarioComNovaSenha;
+    }
+
+    return null; 
+  }
+
 }

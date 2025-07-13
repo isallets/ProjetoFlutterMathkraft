@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mathkraft/screens/tela_buscar_todos_usuarios.dart';
 import 'package:mathkraft/widgets/header_mathkraft.dart';
 import 'package:mathkraft/widgets/admin_menu_navigation_bar_widget.dart';
+import 'package:mathkraft/controller/user_controller.dart';
+import 'package:mathkraft/model/user_model.dart';
 
 class TelaBuscarUsuario extends StatefulWidget {
   const TelaBuscarUsuario({super.key});
@@ -160,22 +162,52 @@ class _TelaBuscarUsuarioState extends State<TelaBuscarUsuario> {
               child: SizedBox(
                 width: MediaQuery.of(context).size.width * 0.7,
                 child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     final String nomeDigitado = _nomeController.text;
                     final String idDigitado = _idController.text;
-                    print('Botão BUSCAR pressionado!');
-                    print('Nome: $nomeDigitado, ID: $idDigitado');
-                    //chamar funcao de busca
+                    final controller = UserController.instance;
+                    User? usuarioEncontrado;
+
+               if (idDigitado.isNotEmpty) {
+                      final int? id = int.tryParse(idDigitado);
+                      if (id != null) {
+                        usuarioEncontrado = await controller.getUserById(id);
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('ID inválido. Use apenas números.')));
+                        return;
+                      }
+                    } 
+                    else if (nomeDigitado.isNotEmpty) {
+                      usuarioEncontrado = await controller.getUserByUsername(nomeDigitado);
+                    } 
+                    else {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Por favor, preencha um dos campos.')));
+                      return;
+                    }
+                    if (usuarioEncontrado != null) {
+                      showDialog(
+                        context: context,
+                        builder: (context) => AlertDialog(
+                          title: const Text('Usuário Encontrado!'),
+                          content: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text('ID: ${usuarioEncontrado!.id}'),
+                              Text('Nome: ${usuarioEncontrado.nome}'),
+                              Text('Telefone: ${usuarioEncontrado.telefone}'),
+                              Text('Pontuação: ${usuarioEncontrado.pontuacao ?? 0}'),
+                            ],
+                          ),
+                          actions: [
+                            TextButton(onPressed: () => Navigator.of(context).pop(), child: const Text('OK')),
+                          ],
+                        ),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Usuário não encontrado.'), backgroundColor: Colors.red));
+                    }
                   },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: _laranjaClaro,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                      side: const BorderSide(color: Colors.black, width: 1.0),
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 15),
-                    elevation: 0,
-                  ),
                   child: const Text(
                     'BUSCAR',
                     style: TextStyle(

@@ -1,29 +1,34 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
+import 'package:mathkraft/model/user_model.dart';
 import 'package:mathkraft/widgets/app_bar_voltar_button.dart';
 import 'package:mathkraft/screens/tela_recuperar_senha.dart';
+import 'package:mathkraft/controller/user_controller.dart';
 
 class TelaEditarConta extends StatefulWidget {
-  const TelaEditarConta({super.key});
+  final User userParaEditar;
+  const TelaEditarConta({
+      super.key,
+      required this.userParaEditar,
+    });
 
   @override
   State<TelaEditarConta> createState() => _TelaEditarContaState();
 }
 
 class _TelaEditarContaState extends State<TelaEditarConta> {
-  late TextEditingController _nomeUsuarioController;
-  late TextEditingController _telefoneController;
+  final _nomeUsuarioController = TextEditingController();
+  final _telefoneController = TextEditingController();
 
   final Color _corBotao = const Color.fromRGBO(204, 238, 243, 1.0); // Um tom de azul claro do design
   final Color _corTextoBotao = Colors.black;
   final Color _cinza = const Color(0xFF424242);
 
-
   @override
   void initState() {
     super.initState();
-    _nomeUsuarioController = TextEditingController();
-    _telefoneController = TextEditingController();
+    _nomeUsuarioController.text = widget.userParaEditar.nome;
+    _telefoneController.text = widget.userParaEditar.telefone;
   }
 
   @override
@@ -104,7 +109,7 @@ class _TelaEditarContaState extends State<TelaEditarConta> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: (){
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NovaSenhaDialog()));
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NovaSenhaDialog(userId: widget.userParaEditar.id!)));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: _corBotao,
@@ -129,6 +134,37 @@ class _TelaEditarContaState extends State<TelaEditarConta> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: (){
+                    final novoNome = _nomeUsuarioController.text;
+                    final novoTelefone = _telefoneController.text;
+
+                    if (novoNome.isEmpty || novoTelefone.isEmpty) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Os campos não podem ficar em branco.'),
+                          backgroundColor: Color.fromARGB(255, 255, 51, 0),
+                        ),
+                      );
+                      return; 
+                    }
+
+                    // Cria o objeto User atualizado
+                    final usuarioAtualizado = User(
+                      id: widget.userParaEditar.id,
+                      nome: _nomeUsuarioController.text,
+                      senha: widget.userParaEditar.senha, 
+                      telefone: _telefoneController.text,
+                      pontuacao: widget.userParaEditar.pontuacao,
+                    );
+
+                    // Chama o controller para salvar no banco
+                    UserController.instance.updateUser(usuarioAtualizado);
+
+                    // Se o admin está editando outro usuário, não devemos mudar o 'currentUser'.
+                    // Mas se o usuário está editando a si mesmo, atualizamos.
+                    if (UserController.instance.currentUser?.id == usuarioAtualizado.id) {
+                        UserController.instance.currentUser = usuarioAtualizado;
+                    }
+
                     _showSuccessDialog();
                   },
                   style: ElevatedButton.styleFrom(

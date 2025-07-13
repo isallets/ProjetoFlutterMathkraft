@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mathkraft/widgets/app_bar_voltar_button.dart';
+import 'package:mathkraft/controller/user_controller.dart';
 
 class TelaRecuperarSenha extends StatefulWidget {
   const TelaRecuperarSenha({super.key});
@@ -9,16 +10,38 @@ class TelaRecuperarSenha extends StatefulWidget {
 }
 
 class _TelaRecuperarSenhaState extends State<TelaRecuperarSenha> {
-  void _showNewPasswordDialog() {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return const NovaSenhaDialog();
-      },
+  final _nomeController = TextEditingController();
+  final _telefoneController = TextEditingController();
+
+  void _verificarIdentidade() async {
+    final user = await UserController.instance.verificarUsuario(
+      _nomeController.text,
+      _telefoneController.text,
     );
+    if (user != null) {
+      showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (BuildContext context) {
+            return NovaSenhaDialog(userId: user.id!); // Passando o ID
+          },
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Usuário ou telefone não encontrados.'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }  
   }
 
+  @override
+  void dispose() {
+    _nomeController.dispose();
+    _telefoneController.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     const Color laranja = Color.fromRGBO(249, 206, 79, 1);
@@ -58,12 +81,14 @@ class _TelaRecuperarSenhaState extends State<TelaRecuperarSenha> {
 
               // Campos de Texto
               _buildCampoTexto(
+                controller: _nomeController,
                 labelText: 'Nome de usuário',
                 icon: Icons.person_outline,
                 borderColor: cinza,
               ),
               const SizedBox(height: 20),
               _buildCampoTexto(
+                controller:_telefoneController,
                 labelText: 'Telefone',
                 icon: Icons.phone_iphone_outlined,
                 keyboardType: TextInputType.number,
@@ -81,7 +106,7 @@ class _TelaRecuperarSenhaState extends State<TelaRecuperarSenha> {
                     borderRadius: BorderRadius.circular(22.0),
                   ),
                 ),
-                onPressed: _showNewPasswordDialog,
+                onPressed: _verificarIdentidade,
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -104,12 +129,14 @@ class _TelaRecuperarSenhaState extends State<TelaRecuperarSenha> {
 
   // Widget auxiliar para os campos de texto
   Widget _buildCampoTexto({
+    required TextEditingController controller,
     required String labelText,
     required IconData icon,
     TextInputType keyboardType = TextInputType.text,
     required Color borderColor,
   }) {
     return TextField(
+      controller: controller,
       keyboardType: keyboardType,
       decoration: InputDecoration(
         labelText: labelText,
@@ -129,25 +156,42 @@ class _TelaRecuperarSenhaState extends State<TelaRecuperarSenha> {
 
 //Widget para o Dialog de Nova Senha
 class NovaSenhaDialog extends StatefulWidget {
-  const NovaSenhaDialog({super.key});
+final int userId;
+  const NovaSenhaDialog({super.key, required this.userId});
 
   @override
   State<NovaSenhaDialog> createState() => _NovaSenhaDialogState();
 }
 
 class _NovaSenhaDialogState extends State<NovaSenhaDialog> {
+  final _novaSenhaController = TextEditingController();
+  final _confirmarSenhaController = TextEditingController();
   bool _ehSenhaNova = false;
 
-  void _mudarPassword() {
-    setState(() {
-      _ehSenhaNova = true;
-    });
+  void _redefinirSenha() async {
+    final resultado = await UserController.instance.redefinirSenha(
+      userId: widget.userId, 
+      novaSenha: _novaSenhaController.text,
+      confirmarSenha: _confirmarSenhaController.text,
+    );
 
-    // Após 2 segundos, fecha tudo e volta para a tela de login
-    Future.delayed(const Duration(seconds: 2), () {
-      Navigator.of(context).pop();
-      Navigator.of(context).pop();
-    });
+    if (resultado == null) {
+      setState(() => _ehSenhaNova = true); 
+      Future.delayed(const Duration(seconds: 2), () {
+        Navigator.of(context).pop();
+        Navigator.of(context).pop();
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(resultado), backgroundColor: Colors.red),
+      );
+    }    
+  }
+  @override
+  void dispose() {
+    _novaSenhaController.dispose();
+    _confirmarSenhaController.dispose();
+    super.dispose();
   }
 
   @override
@@ -207,7 +251,8 @@ class _NovaSenhaDialogState extends State<NovaSenhaDialog> {
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 24),
-        const TextField(
+        TextField(
+          controller: _novaSenhaController,
           obscureText: true,
           decoration: InputDecoration(
             labelText: 'Senha',
@@ -218,7 +263,8 @@ class _NovaSenhaDialogState extends State<NovaSenhaDialog> {
           ),
         ),
         const SizedBox(height: 16),
-        const TextField(
+        TextField(
+          controller: _confirmarSenhaController,
           obscureText: true,
           decoration: InputDecoration(
             labelText: 'Repita a senha',
@@ -238,7 +284,7 @@ class _NovaSenhaDialogState extends State<NovaSenhaDialog> {
               borderRadius: BorderRadius.circular(22.0),
             ),
           ),
-          onPressed: _mudarPassword,
+          onPressed: _redefinirSenha,
           child: const Text('Alterar senha', style: TextStyle(fontWeight: FontWeight.bold)),
         ),
       ],

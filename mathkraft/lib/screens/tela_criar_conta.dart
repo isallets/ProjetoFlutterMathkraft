@@ -15,7 +15,6 @@ class _TelaCriarContaState extends State<TelaCriarConta> {
   late TextEditingController _senha1Controller;
   late TextEditingController _senha2Controller;
   late TextEditingController _telefoneController;
-  late List<Map> _criada;
 
   final Color laranja = const Color.fromRGBO(249, 206, 79, 1);
   final Color cinza = const Color(0xFF424242);
@@ -27,7 +26,6 @@ class _TelaCriarContaState extends State<TelaCriarConta> {
     _senha1Controller = TextEditingController();
     _senha2Controller = TextEditingController();
     _telefoneController = TextEditingController();
-    _criada = List.empty();
   }
 
   @override
@@ -60,22 +58,25 @@ class _TelaCriarContaState extends State<TelaCriarConta> {
     );
   }
 
-  void _criarUser(String nome, String senha1, String telefone) async{
-    _criada = await UserController.instance.criarUser(
-                    _nomeController.text,
-                    _senha1Controller.text,
-                    _telefoneController.text
-                  );
+  void _criarUser() async {
+    final bool _criada = await UserController.instance.createUser(
+      _nomeController.text,
+      _senha1Controller.text,
+      _telefoneController.text,
+    );
 
-                  if(_criada.isNotEmpty){
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(content: Text('Já existe um usuário com este nome')),
-                    );
-                    return;
-                  }
-                  else{
-                    _showSuccessDialog(); // Chamada CORRETA da função
-                  }
+    if (mounted) {
+      if (_criada) {
+        _showSuccessDialog();
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Já existe um usuário com este nome.'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
   }
 
   Widget _buildSuccessView() {
@@ -224,16 +225,9 @@ class _TelaCriarContaState extends State<TelaCriarConta> {
                     );
                     return;
                   }
-
                   // Chamada correta ao UserController para criar o usuário
-                  _criarUser(
-                    _nomeController.text,
-                    _senha1Controller.text,
-                    _telefoneController.text
-                    );
-                  
+                  _criarUser();
                
-                  // --- Fim da Lógica ---
                 },
                 child: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,

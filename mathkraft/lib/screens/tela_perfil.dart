@@ -15,7 +15,6 @@ class TelaPerfil extends StatefulWidget {
 class _TelaPerfilState extends State<TelaPerfil>{
 
   //botão sair da conta
-
   void _buttonSairContaDialog() {
     showDialog(
       context: context,
@@ -46,7 +45,6 @@ class _TelaPerfilState extends State<TelaPerfil>{
                         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TelaPerfil()));
                       },
                     ),
-
                     SizedBox(height: 15.0),
                     
                     buildConfirmarButton(
@@ -107,7 +105,7 @@ class _TelaPerfilState extends State<TelaPerfil>{
                     buildConfirmarButton(
                       context: context,
                       onPressed: () {
-                        // 
+                        UserController.instance.deletarConta(context);
                       },
                     ),
                   ],
@@ -164,7 +162,7 @@ class _TelaPerfilState extends State<TelaPerfil>{
                 ),
                 SizedBox(height: 15.0),
                 Text(
-                  '@${UserController.instance.nome}',
+                  '@${UserController.instance.currentUser?.nome}',
                   style: TextStyle(
                     fontSize: 32.0,
                     fontWeight: FontWeight.bold,
@@ -173,7 +171,7 @@ class _TelaPerfilState extends State<TelaPerfil>{
                 ),
                 SizedBox(height: 5.0),
                 Text(
-                  '${UserController.instance.pontuacao}',
+                  '${UserController.instance.currentUser?.pontuacao ?? 0}',
                   style: TextStyle(
                     fontSize: 28.0,
                     fontWeight: FontWeight.bold,
@@ -206,7 +204,8 @@ class _TelaPerfilState extends State<TelaPerfil>{
                   textColor: Colors.black,
                   iconColor: Colors.black,
                   onPressed: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => const TelaEditarConta()));
+                    final currentUser = UserController.instance.currentUser;
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => TelaEditarConta(userParaEditar: currentUser!)));
                   },
                 ),
                 SizedBox(height: 25.0),
