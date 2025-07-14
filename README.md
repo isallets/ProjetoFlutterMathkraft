@@ -8,7 +8,8 @@
   ↪️ Apenas admins editam, buscam e excluem usuários
   ↪️ Apenas usuários criam, editam ou excluem conta (sua própria conta)
 
-
 ❌ Erros:
   ↪️ Sorteio de Perguntas ao jogar (perguntas se repetem)
   ↪️ Responsividade
+
+⚠️‼️ BRANCH PRINCIPAL: BRANCH-8 ‼️⚠️
