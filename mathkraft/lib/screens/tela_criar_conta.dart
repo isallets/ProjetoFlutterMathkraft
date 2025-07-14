@@ -30,7 +30,6 @@ class _TelaCriarContaState extends State<TelaCriarConta> {
 
   @override
   void dispose() {
-    // Descarte os controladores para liberar recursos
     _nomeController.dispose();
     _senha1Controller.dispose();
     _senha2Controller.dispose();
@@ -44,7 +43,6 @@ class _TelaCriarContaState extends State<TelaCriarConta> {
       context: context,
       barrierDismissible: false,
       builder: (BuildContext context) {
-        // Após 2 segundos, o dialog e a tela de cadastro são fechados
         Timer(const Duration(seconds: 2), () {
           Navigator.of(context).pop();
           Navigator.of(context).pop();
@@ -131,12 +129,11 @@ class _TelaCriarContaState extends State<TelaCriarConta> {
 
   @override
   Widget build(BuildContext context) {
-    // Instancie a classe AppBarVoltarButton aqui dentro do build
     final AppBarVoltarButton voltarButton = AppBarVoltarButton();
 
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: voltarButton.criar(context, Colors.white), // Usa seu AppBarVoltarButton
+      appBar: voltarButton.criar(context, Colors.white),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 32.0),
         child: Center(
@@ -160,14 +157,14 @@ class _TelaCriarContaState extends State<TelaCriarConta> {
               const SizedBox(height: 40),
 
               // Campos de Texto
-              _buildTextField( // Usando o método auxiliar
+              _buildTextField(
                 controller: _nomeController,
                 labelText: 'Nome de usuário',
                 icon: Icons.person_outline,
                 borderColor: cinza,
               ),
               const SizedBox(height: 20),
-              _buildTextField( // Usando o método auxiliar
+              _buildTextField(
                 controller: _senha1Controller,
                 labelText: 'Senha',
                 icon: Icons.lock_outline,
@@ -175,16 +172,16 @@ class _TelaCriarContaState extends State<TelaCriarConta> {
                 borderColor: cinza,
               ),
               const SizedBox(height: 20),
-              _buildTextField( // Usando o método auxiliar
-                controller: _senha2Controller, // Associado ao controlador
+              _buildTextField(
+                controller: _senha2Controller,
                 labelText: 'Repita a senha',
                 icon: Icons.lock_outline,
                 obscureText: true,
                 borderColor: cinza,
               ),
               const SizedBox(height: 20),
-              _buildTextField( // Usando o método auxiliar
-                controller: _telefoneController, // Associado ao controlador
+              _buildTextField(
+                controller: _telefoneController,
                 labelText: 'Telefone',
                 icon: Icons.phone_iphone_outlined,
                 keyboardType: TextInputType.phone,
@@ -204,7 +201,6 @@ class _TelaCriarContaState extends State<TelaCriarConta> {
                   elevation: 0,
                 ),
                 onPressed: () {
-                  // --- Lógica de Validação e Criação de Usuário ---
                   if (_senha1Controller.text != _senha2Controller.text) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('As senhas não coincidem!')),
@@ -225,7 +221,6 @@ class _TelaCriarContaState extends State<TelaCriarConta> {
                     );
                     return;
                   }
-                  // Chamada correta ao UserController para criar o usuário
                   _criarUser();
                
                 },

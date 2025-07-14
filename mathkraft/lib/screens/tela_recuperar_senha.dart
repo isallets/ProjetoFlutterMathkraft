@@ -169,6 +169,13 @@ class _NovaSenhaDialogState extends State<NovaSenhaDialog> {
   bool _ehSenhaNova = false;
 
   void _redefinirSenha() async {
+
+    if(_novaSenhaController.text.isEmpty || _confirmarSenhaController.text.isEmpty){
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Preencha os campos'), backgroundColor: Colors.red),
+      );
+      return;
+    }
     final resultado = await UserController.instance.redefinirSenha(
       userId: widget.userId, 
       novaSenha: _novaSenhaController.text,
@@ -282,6 +289,20 @@ class _NovaSenhaDialogState extends State<NovaSenhaDialog> {
           onPressed: _redefinirSenha,
           child: const Text('Alterar senha', style: TextStyle(fontWeight: FontWeight.bold)),
         ),
+        const SizedBox(height: 24),
+        ElevatedButton(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: buttonColor,
+            foregroundColor: darkTextColor,
+            minimumSize: const Size.fromHeight(50),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(22.0),
+            ),
+          ),
+          onPressed: Navigator.of(context).pop,
+          child: const Text('Cancelar', style: TextStyle(fontWeight: FontWeight.bold)),
+        )
+        
       ],
     );
   }

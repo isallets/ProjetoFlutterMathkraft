@@ -9,7 +9,7 @@ class UserDAO {
 
     } catch (e) {
       print("ERRO AO INSERIR USUÁRIO: $e");
-      return -1; // Indica que houve um erro
+      return -1;
     }
   }
 
@@ -34,7 +34,6 @@ class UserDAO {
     List<Map> result = await db.query('user', where: 'nome = ?', whereArgs: [user],);
 
     if (result.isNotEmpty) {
-      // Converte o Map do banco para um objeto User
       return User.fromMap(result.first as Map<String, dynamic>);
     }
     return null; 
@@ -45,7 +44,6 @@ class UserDAO {
     List<Map> result = await db.query('user', where: 'id = ?', whereArgs: [id],);
 
     if (result.isNotEmpty) {
-      // Converte o Map do banco para um objeto User
       return User.fromMap(result.first as Map<String, dynamic>);
     }
     return null; 

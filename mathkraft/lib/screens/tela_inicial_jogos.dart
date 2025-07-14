@@ -8,7 +8,7 @@ import '../controller/pergunta_controller.dart';
 class TelaInicialJogos extends StatelessWidget {
   Future<void> _sortearPergunta(context) async{
         await PerguntaController.instance.sortearPergunta();
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TelaJogo()));
+        Navigator.push(context, MaterialPageRoute(builder: (context) => TelaJogo()));
       }
   
   @override
@@ -142,7 +142,7 @@ class TelaInicialJogos extends StatelessWidget {
                           //botão jogar dentro do quadrado amarelo
                           ElevatedButton(
                             onPressed: () {
-                              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => TelaJogo()));
+                              _sortearPergunta(context);
                             },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: Colors.black,

@@ -195,7 +195,6 @@ class _TelaCriarPerguntaState extends State<TelaCriarPergunta> {
                     child: DropdownMenu<String>(
                         initialSelection: opcoes[0],
                         onSelected: (String? value) {
-                          // This is called when the user selects an item.
                           setState(() {
                             valorDropDown1 = value!;
                           });
@@ -212,7 +211,6 @@ class _TelaCriarPerguntaState extends State<TelaCriarPergunta> {
                     child: DropdownMenu<String>(
                       initialSelection: opcoes[0],
                       onSelected: (String? value) {
-                        // This is called when the user selects an item.
                         setState(() {
                           valorDropDown2 = value!;
                         });

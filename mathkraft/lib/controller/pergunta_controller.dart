@@ -36,8 +36,12 @@ class PerguntaController {
   Future<void> sortearPergunta() async{
     List<Pergunta> perguntas = await getAllPergunta();
 
-    if(perguntas[0].id == currentPergunta!.id){
-      perguntas.shuffle();
+    if(currentPergunta != null){
+      if(perguntas[0].id == currentPergunta!.id){
+        while(perguntas[0].id == currentPergunta!.id){
+          perguntas.shuffle();
+        }
+      }
     }
 
     currentPergunta = await _repository.getPerguntaById(perguntas[0].id!);

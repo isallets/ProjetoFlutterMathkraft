@@ -67,6 +67,7 @@ class _TelaBuscarUsuarioState extends State<TelaBuscarUsuario> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: const MathKraftHeader(),
@@ -126,7 +127,7 @@ class _TelaBuscarUsuarioState extends State<TelaBuscarUsuario> {
               borderWidth: 2.0,
             ),
 
-            const SizedBox(height: 70),
+            const SizedBox(height: 50),
 
             Center(
               child: SizedBox(
@@ -156,8 +157,7 @@ class _TelaBuscarUsuarioState extends State<TelaBuscarUsuario> {
               ),
             ),
             const SizedBox(height: 15),
-
-            // Botão BUSCAR
+            
             Center(
               child: SizedBox(
                 width: MediaQuery.of(context).size.width * 0.7,
@@ -168,7 +168,7 @@ class _TelaBuscarUsuarioState extends State<TelaBuscarUsuario> {
                     final controller = UserController.instance;
                     User? usuarioEncontrado;
 
-               if (idDigitado.isNotEmpty) {
+                    if (idDigitado.isNotEmpty) {
                       final int? id = int.tryParse(idDigitado);
                       if (id != null) {
                         usuarioEncontrado = await controller.getUserById(id);
@@ -208,8 +208,46 @@ class _TelaBuscarUsuarioState extends State<TelaBuscarUsuario> {
                       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Usuário não encontrado.'), backgroundColor: Colors.red));
                     }
                   },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: _laranjaClaro,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                      side: const BorderSide(color: Colors.black, width: 1.0),
+                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 15),
+                    elevation: 0,
+                  ),
                   child: const Text(
                     'BUSCAR',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 15),
+
+            Center(
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width * 0.7,
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: _laranjaClaro,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                      side: const BorderSide(color: Colors.black, width: 1.0),
+                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 15),
+                    elevation: 0,
+                  ),
+                  child: const Text(
+                    'VOLTAR',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,

@@ -25,7 +25,7 @@ class UserController {
     final user = await _repository.login(username, senha);
 
     if (user != null) {
-      currentUser = user; // Guarda o usuário que logou.
+      currentUser = user;
       
       if (user is UserAdmin) {
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const TelaAdmin()));
@@ -49,7 +49,7 @@ class UserController {
   }
 
   void logout(BuildContext context) {
-    currentUser = null; // Limpa os dados do usuário logado
+    currentUser = null;
 
     Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(builder: (context) => const TelaBoasVindas()),
@@ -118,6 +118,7 @@ class UserController {
       nome: user.nome,
       telefone: user.telefone,
       pontuacao: user.pontuacao,
+      ofensitvaCount: user.ofensitvaCount,
       senha: novaSenha, 
     );
 

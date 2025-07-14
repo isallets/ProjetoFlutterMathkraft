@@ -28,7 +28,6 @@ class _TelaBoasVindasState extends State<TelaBoasVindas> {
 
   @override
   void dispose() {
-    // Descarte os controladores para liberar recursos
     _nomeController.dispose();
     _senhaController.dispose();
     super.dispose();

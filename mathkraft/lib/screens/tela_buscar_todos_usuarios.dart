@@ -67,8 +67,26 @@ class _TelaBuscarTodosUsuariosState extends State<TelaBuscarTodosUsuarios> {
               child: SizedBox(
                 width: MediaQuery.of(context).size.width * 0.7,
                 child: ElevatedButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text('VOLTAR'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.yellow[100],
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                      side: const BorderSide(color: Colors.black, width: 1.0),
+                    ),
+                    padding: const EdgeInsets.symmetric(vertical: 15),
+                    elevation: 0,
+                  ),
+                  child: const Text(
+                    'VOLTAR',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black,
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -83,7 +101,7 @@ class _TelaBuscarTodosUsuariosState extends State<TelaBuscarTodosUsuarios> {
 
 class UserListItem extends StatelessWidget {
   final User user;
-  final VoidCallback onActionCompleted; // "Avisa" a tela para recarregar a lista
+  final VoidCallback onActionCompleted;
 
   const UserListItem({
     super.key,
@@ -108,7 +126,6 @@ class UserListItem extends StatelessWidget {
                     context,
                     MaterialPageRoute(builder: (context) => TelaEditarConta(userParaEditar: user)),
                   );
-                  // Quando voltar da tela de edição, recarrega a lista
                   onActionCompleted();
                 },
               ),
@@ -123,7 +140,6 @@ class UserListItem extends StatelessWidget {
     );
   }
   
-  // A lógica do dialog de deletar
   void _showDeleteDialog(BuildContext context, User user, VoidCallback onActionCompleted) {
     showDialog(
       context: context,
@@ -136,7 +152,6 @@ class UserListItem extends StatelessWidget {
             onPressed: () async {
               await UserController.instance.deleteUser(user.id!);
               Navigator.of(context).pop();
-              // Avisa a tela principal para recarregar a lista
               onActionCompleted();
             },
             child: const Text('Excluir', style: TextStyle(color: Colors.red)),

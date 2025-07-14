@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:mathkraft/model/user_model.dart';
+import 'package:mathkraft/screens/tela_perfil.dart';
 import 'package:mathkraft/widgets/app_bar_voltar_button.dart';
 import 'package:mathkraft/screens/tela_recuperar_senha.dart';
 import 'package:mathkraft/controller/user_controller.dart';
@@ -20,7 +21,7 @@ class _TelaEditarContaState extends State<TelaEditarConta> {
   final _nomeUsuarioController = TextEditingController();
   final _telefoneController = TextEditingController();
 
-  final Color _corBotao = const Color.fromRGBO(204, 238, 243, 1.0); // Um tom de azul claro do design
+  final Color _corBotao = const Color.fromRGBO(204, 238, 243, 1.0);
   final Color _corTextoBotao = Colors.black;
   final Color _cinza = const Color(0xFF424242);
 
@@ -46,6 +47,7 @@ class _TelaEditarContaState extends State<TelaEditarConta> {
         Timer(const Duration(seconds: 2), () {
           Navigator.of(context).pop();
           Navigator.of(context).pop();
+          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const TelaPerfil()));
         });
 
         return Dialog(
@@ -109,7 +111,7 @@ class _TelaEditarContaState extends State<TelaEditarConta> {
                 width: double.infinity,
                 child: ElevatedButton(
                   onPressed: (){
-                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => NovaSenhaDialog(userId: widget.userParaEditar.id!)));
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => NovaSenhaDialog(userId: widget.userParaEditar.id!)));
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: _corBotao,
@@ -117,7 +119,7 @@ class _TelaEditarContaState extends State<TelaEditarConta> {
                     padding: const EdgeInsets.symmetric(vertical: 16),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(22.0),
-                      side: const BorderSide(color: Colors.black, width: 2.0), // Borda preta
+                      side: const BorderSide(color: Colors.black, width: 2.0),
                     ),
                     elevation: 0,
                   ),
@@ -154,13 +156,11 @@ class _TelaEditarContaState extends State<TelaEditarConta> {
                       senha: widget.userParaEditar.senha, 
                       telefone: _telefoneController.text,
                       pontuacao: widget.userParaEditar.pontuacao,
+                      ofensitvaCount: widget.userParaEditar.ofensitvaCount
                     );
 
-                    // Chama o controller para salvar no banco
                     UserController.instance.updateUser(usuarioAtualizado);
 
-                    // Se o admin está editando outro usuário, não devemos mudar o 'currentUser'.
-                    // Mas se o usuário está editando a si mesmo, atualizamos.
                     if (UserController.instance.currentUser?.id == usuarioAtualizado.id) {
                         UserController.instance.currentUser = usuarioAtualizado;
                     }
