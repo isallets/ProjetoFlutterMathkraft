@@ -21,14 +21,12 @@ class _TelaBuscarUsuarioState extends State<TelaBuscarUsuario> {
   @override
   void initState() {
     super.initState();
-    // Inicializa os controladores
     _nomeController = TextEditingController();
     _idController = TextEditingController();
   }
 
   @override
   void dispose() {
-    // Descarte os controladores para liberar recursos
     _nomeController.dispose();
     _idController.dispose();
     super.dispose();

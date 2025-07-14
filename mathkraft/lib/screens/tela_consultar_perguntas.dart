@@ -119,7 +119,7 @@ class _TelaConsultarPerguntasState extends State<TelaConsultarPerguntas> {
 
 class PerguntaListItem extends StatelessWidget {
   final Pergunta pergunta;
-  final VoidCallback onActionCompleted; // "Avisa" a tela para recarregar a lista
+  final VoidCallback onActionCompleted;
 
   const PerguntaListItem({
     super.key,
@@ -151,7 +151,6 @@ class PerguntaListItem extends StatelessWidget {
                     context,
                     MaterialPageRoute(builder: (context) => TelaCriarPergunta(perguntaParaEditar: pergunta)),
                   );
-                  // Quando voltar da tela de edição, recarrega a lista
                   onActionCompleted();
                 },
               ),
@@ -166,7 +165,6 @@ class PerguntaListItem extends StatelessWidget {
     );
   }
   
-  // A lógica do dialog de deletar
   void _showDeleteDialog(BuildContext context, Pergunta pergunta, VoidCallback onActionCompleted) {
     showDialog(
       context: context,
@@ -179,7 +177,6 @@ class PerguntaListItem extends StatelessWidget {
             onPressed: () async {
               await PerguntaController.instance.deletePergunta(pergunta.id!);
               Navigator.of(context).pop();
-              // Avisa a tela principal para recarregar a lista
               onActionCompleted();
             },
             child: const Text('Excluir', style: TextStyle(color: Colors.red)),
