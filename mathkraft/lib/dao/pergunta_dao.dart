@@ -8,7 +8,7 @@ class PerguntaDAO {
       return await db.insert('pergunta', pergunta.toMap());
     } catch (e) {
       print("ERRO AO INSERIR PERGUNTA: $e");
-      return -1; // Indica que houve um erro
+      return -1;
     }
   }
 
@@ -44,7 +44,6 @@ class PerguntaDAO {
     );
 
     if (result.isNotEmpty) {
-      // Converte o Map do banco para um objeto Pergunta
       return Pergunta.fromMap(result.first as Map<String, dynamic>);
     }
     return null;
@@ -59,7 +58,6 @@ class PerguntaDAO {
     );
 
     if (result.isNotEmpty) {
-      // Converte o Map do banco para um objeto Pergunta
       return Pergunta.fromMap(result.first as Map<String, dynamic>);
     }
     return null;
