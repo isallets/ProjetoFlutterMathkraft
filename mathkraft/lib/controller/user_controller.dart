@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:mathkraft/model/user_admin.dart';
 import 'package:mathkraft/model/user_model.dart';
@@ -76,6 +78,10 @@ class UserController {
   }
 
   Future<void> updateUser(User user) {
+    if(currentUser!.id == user.id){
+      currentUser = user;
+    }
+    log('${user.ofensitvaCount} + ${user.pontuacao}');
     return _repository.updateUser(user);
   }
 

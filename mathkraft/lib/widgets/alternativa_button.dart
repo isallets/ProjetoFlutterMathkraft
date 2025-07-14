@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:mathkraft/controller/user_controller.dart';
 import 'package:mathkraft/dialogs/resposta_dialog.dart';
@@ -16,18 +14,15 @@ class AlternativaButton {
                         onPressed: () {
                           if(!onlyView){
                             if (option == correctAnswer) {
-                              respostaDialog.exibir(context);
-                              log(user!.telefone.toString());
+                              respostaDialog.exibir(context, ofensiva: user!.ofensitvaCount!);
                               UserController.instance.updateUser(
                                 User(
                                   id: user!.id,
                                   nome: user!.nome, 
                                   senha: user!.senha, 
                                   telefone: user!.telefone,
-                                  pontuacao: user!.pontuacao !+ user!.ofensitvaCount!,
-                                  ofensitvaCount: user!.ofensitvaCount! == 5 ?  
-                                                  user!.ofensitvaCount! + 1 :
-                                                  user!.ofensitvaCount!
+                                  pontuacao: (user!.pontuacao !+ user!.ofensitvaCount!),
+                                  ofensitvaCount: (user!.ofensitvaCount! + 1)
                                 )
                               );
                             } else {

@@ -94,7 +94,7 @@ class TelaInicialJogos extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        '7/? concluídos',
+                        '?/? concluídos',
                         style: TextStyle(
                           fontSize: 18.0,
                           color: Colors.black, 

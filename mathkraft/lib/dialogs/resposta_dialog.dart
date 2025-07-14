@@ -6,8 +6,9 @@ import 'package:mathkraft/widgets/tente_novamente_button.dart';
 class RespostaDialog {
   ProximaFaseButton next = ProximaFaseButton();
   TenteNovamenteButton retry = TenteNovamenteButton();
+  
 
-  SizedBox mensagemCorreto(context, dialogContext){
+  SizedBox mensagemCorreto(context, dialogContext, int ofensiva){
     return SizedBox(
             height: 470.0,
             width: 300.0,
@@ -36,8 +37,8 @@ class RespostaDialog {
 
                 const SizedBox(height: 20),
 
-                const Text(
-                  '+ 1 ponto',
+                Text(
+                  '+ $ofensiva ponto(s)',
                   style: TextStyle(
                     fontSize: 25.0,
                     color: Colors.black,
@@ -90,7 +91,7 @@ class RespostaDialog {
   }
 
   //função principal
-  void exibir(context, {String ?selectedAnswer}) {
+  void exibir(context, {String ?selectedAnswer, int ?ofensiva}) {
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -102,7 +103,7 @@ class RespostaDialog {
             borderRadius: BorderRadius.circular(20.0)),
           content: 
           selectedAnswer == null ?
-          mensagemCorreto(context, dialogContext) : mensagemIncorreto(dialogContext)
+          mensagemCorreto(context, dialogContext, ofensiva!) : mensagemIncorreto(dialogContext)
         );
       },
     );
